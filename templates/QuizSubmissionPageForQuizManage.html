@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Quiz Management Quiz-Sumission - LEADCODER</title>
+
+   <!-- iconscout cdn path -->
+   <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
+   <!-- CSS File Link -->
+   <link rel="stylesheet" href="/static/css/admin_style.css">
+            </head>
+          
+<body>
+   {% csrf_token %}
+   <div class="sidebar" id="sidebar">
+      <div class="logo">
+         <h2>
+            <div class="logo-img">
+               <img src="/static/img/lc/logo-white.png" alt="">
+            </div>            
+         </h2>
+      </div>
+
+      <div class="sidebar-menu">
+         <ul>
+            <li>
+               <i class="uil uil-dashboard"></i>
+               <a href="/controlPanelForQuizManage/"><span>Dashboard</span></a>
+            </li>
+            <li>
+               <i class="uil uil-clipboard-notes"></i>
+              <a href="/allQuizPageForQuizManage/"><span>All Quiz</span></a>
+            </li>
+            <li>
+               <i class="uil uil-chart-bar"></i>
+               <a href="/QuizSubmissionPageForQuizManage/"><span>Quiz Submissions</span></a>
+            </li>
+            <li>
+               <i class="uil uil-calendar-alt"></i>
+               <a href="/QuizResultPageForQuizManage/"><span>Result</span></a>
+            </li>
+            <!-- <li>
+               <i class="uil uil-shopping-bag"></i>
+               <a href=""><span>Orders</span></a>
+            </li> -->
+            <li>
+               <i class="uil uil-user-circle"></i>
+               <a href="/adminprofile/{{admin.Admin_username}}"><span>Account</span></a>
+            </li>
+            <li>
+               <i class="uil uil-signin"></i>
+               <span>Logout</span>
+            </li>
+         </ul>
+      </div>
+   </div>
+
+   <div class="main-content" id="main-content">
+      <header class="flex">
+         <h2>
+            <i class="uil uil-bars" id="menu-icon"></i>
+            Quiz Submissions
+         </h2>
+        <div class="admin-box flex" >
+            <img src="/static/img/logo7.jpg" width="30px" height="30px">
+            <div>
+               <h4>{{admin.Admin_username}}</h4>
+               <small>Admin</small>
+            </div>
+         </div>
+      </header>
+
+      <main>
+       
+         <div class="wrapper flex">
+            <div class="projects">
+               <div class="card-header flex">
+                  <h3>Recents Quiz's</h3>
+                  </div>
+
+               <table>
+                  <thead>
+                     <th>
+                        <tr>
+                           <td>Name</td>
+                           <td>Score</td>
+                           <td>Submited at</td>
+                           <td>Action</td>
+                        </tr>
+                     </th>
+                  </thead>
+
+                  <tbody>
+                     {% for quizSubmited in quizSubmited %}  
+                     <tr>
+                        <td>{{quizSubmited.quiz}}</td>
+                        <td>{{quizSubmited.score}}</td>
+                        <td>{{quizSubmited.submited_at}}</td>
+                       <td>
+                        <a href="/editProduct/{{ product.Product_id }}"><span class="glyphicon glyphicon-pencil" >Edit</span></a>
+                       <a href="/destroy/{{ product.Product_id }}"><span class="glyphicon glyphicon-pencil" onclick="popup()" >Delete</span></a>  
+                      
+                       </td>
+                       
+                     </tr>
+                     {% endfor %}   
+                  </tbody>
+                  
+               </table>
+            </div>
+         </div>
+      </main>
+   </div>
+
+   <script>
+      let sideBar = document.getElementById('sidebar');
+      let menuIcon = document.getElementById('menu-icon');
+      let mainContent = document.getElementById('main-content');
+
+      menuIcon.onclick = () => {
+         sideBar.classList.toggle('toggleMenu');
+         mainContent.classList.toggle('toggleContent');
+      }
+   </script>
+</body>
+</html>

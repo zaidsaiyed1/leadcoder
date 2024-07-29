@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+              <meta charset="UTF-8">
+              <meta name="viewport" content="width=device-width, initial-scale=1.0">
+              <title>Conform Page for delete</title>
+</head>
+<body>
+              <form method="post" action="/quizDelete/{{data.pk}}/">
+                            {% csrf_token %}
+                            <h4>{{data.title}}</h4>
+                            <h4>{{data.category}}</h4>
+                            <h3>Do you want to delete the Quiz?</h3>
+                            <input type="submit" value="Yes, Delete" />
+                            <a href="{% url 'index' %}">Cancel</a>
+              </form>
+</body>
+</html>

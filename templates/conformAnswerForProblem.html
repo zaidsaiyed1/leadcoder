@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+              <meta charset="UTF-8">
+              <meta name="viewport" content="width=device-width, initial-scale=1.0">
+              <title>Conform Page for delete</title>
+</head>
+<body>
+              <form method="post" action="/answerForProblemDelete/{{data.pk}}/">
+                            {% csrf_token %}
+                            <h3>Do you want to delete the Problem Answer?</h3>
+                            <h3>Question: {{data.problems}}</h3>
+                            <h4>Answer: {{data.answerforp}}</h4>
+                            <input type="submit" value="Yes, Delete" />
+                            <a href="{% url 'index' %}">Cancel</a>
+              </form>
+</body>
+</html>

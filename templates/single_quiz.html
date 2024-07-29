@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+              <meta charset="UTF-8">
+              <meta name="viewport" content="width=device-width, initial-scale=1.0">
+              <title>Quiz</title>
+              <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" />
+               <link rel="stylesheet" href="/static/css/quiz.css">
+               
+</head>
+<body>
+              <form method="post" action="/submitAnswer/{{questions.qid}}/{{questions.quiz.quid}}/">
+                            {% csrf_token %}
+              <div class="quiz-container" id="quiz">
+                            <h2 id="question">{{questions.question}}</h2>
+                            <div class="loading-bar">
+                              <div class="loading-bar-progress" id="loading-bar-progress"></div>
+                            </div>
+                           
+                            {% for answer in answer %}
+                            <ul>
+                              <li>
+                                <input type="radio" value="{{ answer.id }}" name="answer_id" id="{{answer.id}}" class="answer">
+                                <label for="{{answer.id}}" id="{{answer.id}}">{{answer.answers}}</label>
+                              </li>
+                            </ul>
+                              {% endfor %}
+                            <button id="submit" class="skipbtn" >Skip</button> <button id="submit" class="submitbtn">Submit</button>
+              </form>
+                          </div> 
+                          
+</body>
+</html>
