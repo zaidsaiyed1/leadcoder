@@ -6,3 +6,9 @@ class UserRegisterationForm(UserCreationForm):
         class Meta:
                 model=CustomUser
                 fields = ('email','password1','password2')
+
+class UserRegisterationFormForManager(UserCreationForm):
+        email = forms.EmailField()
+        class Meta:
+                model=CustomUser
+                fields = ('email','password1','password2','is_quizManager','is_docsManager')

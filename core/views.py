@@ -325,13 +325,13 @@ def quizResult(request,quid):
     return render(request,'templates/quiz_result.html',context)
 
 def controlPanelForQuizManage(request):
-  quizp = Quiz.objects.get(quid=4)
-  questionp = Question.objects.filter(quiz=quizp).all()
-  quizSubmited = QuizSubmit.objects.filter(quiz=quizp).all()
+  # quizp = Quiz.objects.all()
+  # questionp = Question.objects.filter(quiz=quizp).all()
+  # quizSubmited = QuizSubmit.objects.filter(quiz=quizp).all()
   context = {
-   'quiz':quizp,
-   'question':questionp,
-   'quizSubmited':quizSubmited,
+  #  'quiz':quizp,
+  #  'question':questionp,
+  #  'quizSubmited':quizSubmited,
   }
   return render(request,'templates/admin.html',context)
 
