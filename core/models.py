@@ -2,6 +2,8 @@ import random
 from django.db import models
 from ckeditor_uploader.fields import RichTextUploadingField
 from autoslug import AutoSlugField
+from accounts.models import CustomUser
+from django.conf import settings
 
 class Post(models.Model):
        pid = models.BigAutoField(primary_key=True)
@@ -9,6 +11,7 @@ class Post(models.Model):
        image = models.ImageField(upload_to='images/')
        slug = AutoSlugField(populate_from='title',unique=True,null=True)
        body = RichTextUploadingField()
+       user = models.ForeignKey(CustomUser,on_delete=models.CASCADE)
        created_at = models.DateTimeField(auto_now_add=True)
        updated_at = models.DateTimeField(auto_now=True)
        def __str__(self):
@@ -28,6 +31,7 @@ class Quiz(models.Model):
        quid = models.BigAutoField(primary_key=True)
        title = models.CharField(max_length=200,null=True)
        category = models.ForeignKey(Category,on_delete= models.CASCADE)
+       user = models.ForeignKey(CustomUser,on_delete=models.CASCADE)
        created_at = models.DateTimeField(auto_now_add=True)
        def __str__(self):
               return self.title       
@@ -82,6 +86,7 @@ class QuizSubmit(models.Model):
        qsid = models.BigAutoField(primary_key=True)
        quiz = models.ForeignKey(Quiz,on_delete= models.CASCADE)
        score = models.IntegerField()
+       user = models.ForeignKey(CustomUser,on_delete=models.CASCADE)
        submited_at = models.DateTimeField(auto_now_add=True)
        def __str__(self):
               return self.quiz.title	

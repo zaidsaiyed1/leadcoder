@@ -6,7 +6,7 @@ class Postf(forms.ModelForm):
 
               class Meta:
                       model = Post
-                      fields = ['title','image','body']
+                      fields = ['title','image','body','user']
 
 class Categoryf(forms.ModelForm):
         class Meta:
@@ -37,5 +37,5 @@ class AnswerForProblemf(forms.ModelForm):
 class Quizf(forms.ModelForm):
        class Meta:
                model=Quiz
-               fields = ['title','category']
+               fields = ['title','category','user']
 
