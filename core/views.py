@@ -10,8 +10,27 @@ user = get_user_model()
 def index(request):
  ps = Problem.objects.last()
  quiz = Quiz.objects.all()
- post = Post.objects.all()
+ post = Post.objects.all().order_by('-created_at')[:3]
  return render(request,'templates/index.html',{'ps':ps,'quiz':quiz,'post':post})
+
+def about(request):
+  context = {
+
+  }
+  return render(request,'templates/about.html',context)
+
+def documentation(request):
+  context = {
+
+  }
+  return render(request,'templates/docs.html',context)
+
+def contact_us(request):
+  context = {
+
+  }
+  return render(request,'templates/contact.html',context)
+
 
 def postUpload(request):
   if request.method =='POST':

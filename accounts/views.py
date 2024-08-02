@@ -47,21 +47,26 @@ def loginhandle(request):
      if loginuser is not None:
         if loginuser.is_quizManager == True and loginuser.is_docsManager == False:
           login(request,loginuser)
-          messages.success(request,'Logged In SuccessFuly ' + lusername)
+          messages.success(request,'Logged In Successfully ' + lusername)
           return redirect('controlPanelForQuizManage')
         elif loginuser.is_docsManager == True and loginuser.is_quizManager == False:
           login(request,loginuser)
-          messages.success(request,'Logged In SuccessFuly ' + lusername)
+          messages.success(request,'Logged In Successfuly ' + lusername)
           return redirect('controlPanelForQuizManage') 
         else:
           login(request,loginuser)
-          messages.success(request,'Logged In SuccessFuly ' + lusername)
+          messages.success(request,'Logged In Successfully ' + lusername)
           return redirect('index')
      else:
-        messages.warning(request,lusername+' Not Register!')
+        messages.error(request,lusername+' Invalid Credentials!')
         return redirect('login')
-
+     
    context ={
    
   }
    return render(request,'templates/registeration/login.html',context)
+
+def logouthandle(request):
+   logout(request)
+   messages.success(request,'Logout Sucessfully')
+   return redirect('index')

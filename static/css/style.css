@@ -184,7 +184,33 @@ a:focus {
   background-image: url(/static/img/menu.png);
   background-size: 55px;
 }
+.register {
 
+  background-color: #ffffff;
+  color: rgb(236, 233, 233);
+  border: 1px solid #242724;
+  border-radius: 5px;
+}
+
+.register:hover {
+  background-color: #443c8c;
+  color: white;
+  border: 1px solid #2e302e;
+  border-radius: 3px;
+}
+
+
+.login {
+  background-color: white;
+  color: #0c0c0c;
+}
+
+.login:hover {
+  background-color: #534caf;
+  color: white;
+  border: 1px solid #2e302e;
+  border-radius: 3px;
+}
 /*end header section*/
 .slider_section {
   height: 90%;
