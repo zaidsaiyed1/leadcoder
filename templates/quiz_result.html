@@ -15,12 +15,12 @@
 <body>
     <div class="card">
         <div class="card-header">
-          Featured
+          Quiz Result 📜 
         </div>
         <div class="card-body">
-          <h5 class="card-title">Special title treatment</h5>
+          <h5 class="card-title">Quiz title {{quizname}}</h5>
           <p class="card-text">Your Result: {{score}}</p>
-          <a href="#" class="btn btn-primary">Go somewhere</a>
+          <a href="{% url 'displayAllQuiz' %}" class="btn btn-primary">Go To All Quiz!</a>
         </div>
       </div>
 </body>

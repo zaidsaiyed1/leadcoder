@@ -62,16 +62,12 @@
                 </li>
               </ul>
               {% if user.is_authenticated %}
-             
               <div class="dropdown">
-                <button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown">
-                  welcome {{request.user.first_name}}
-                  <span class="caret"></span></button>
-                <ul class="dropdown-menu">
-                  <li><a href="logout">Logout</a></li>
-                  <hr>
-                  <li><a href="#">Profile</a></li>
-                </ul>
+                <button class="dropbtn">welcome {{request.user.first_name}}</button>
+                <div class="dropdown-content">
+                  <a href="{% url 'logout' %}">Logout</a>
+                  <a href="#">Profile<</a>
+                </div>
               </div>
                  
               {% else %}

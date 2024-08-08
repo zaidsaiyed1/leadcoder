@@ -43,7 +43,7 @@ urlpatterns = [
    path('allQuizPageForQuizManage/',views.allQuizPageForQuizManage,name='allQuizPageForQuizManage'),
    path('QuizSubmissionPageForQuizManage/',views.QuizSubmissionPageForQuizManage,name='QuizSubmissionPageForPageQuizManage'),
    path('QuizResultPageForQuizManage/',views.QuizResultPageForQuizManage,name='QuizResultPageForQuizManage'),
-   
+   path('code/',views.code_Editor,name='code'),
 ] 
 
 

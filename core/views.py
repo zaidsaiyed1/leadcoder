@@ -300,6 +300,14 @@ def diplayQuiz(request,pk):
 
 def submitAnswer(request,qid,quid):
     if request.method == 'POST':
+     if 'Skip'in request.POST:
+        if question:
+             question = Question.objects.filter(quiz=quid,qid__gt=qid).exclude(qid=qid).order_by('qid').first()
+             answer = Answer.objects.filter(question=question).all()
+             request.session['score'] = request.session['score']  - question.marks
+             final_score = request.session['score'] 
+
+     submitQuizUser = request.user
      if 'score' not in request.session:
         request.session['score']=0
 
@@ -313,7 +321,7 @@ def submitAnswer(request,qid,quid):
        final_score = request.session['score'] 
        print(final_score)
        if not question: 
-         quizSubmitQ = QuizSubmit(quiz=quiz,score=final_score);
+         quizSubmitQ = QuizSubmit(quiz=quiz,score=final_score,user=submitQuizUser);
          quizSubmitQ.save();
          return quizResult(request,quid)
        else:
@@ -322,7 +330,7 @@ def submitAnswer(request,qid,quid):
           if question:
                return render(request, 'templates/single_quiz.html', {'questions':question, 'answer':answer})
           final_score = request.session['score'] 
-          quizSubmitQ = QuizSubmit(quiz=quiz,score=final_score);
+          quizSubmitQ = QuizSubmit(quiz=quiz,score=final_score,user=submitQuizUser);
           quizSubmitQ.save();
           
           request.session.modified = True
@@ -333,8 +341,9 @@ def submitAnswer(request,qid,quid):
     
 def quizResult(request,quid):
     del request.session['score']
+    resultUser = request.user
     quiz = Quiz.objects.get(quid=quid)
-    quizsub = QuizSubmit.objects.get(quiz=quid)
+    quizsub = QuizSubmit.objects.get(user=resultUser,quiz=quid)
     quizname = quiz.title
     score=quizsub.score
     context={
@@ -377,3 +386,6 @@ def QuizResultPageForQuizManage(request):
 
 def success(request):
   return HttpResponse('Upload SuccessFully')
+
+def code_Editor(request):
+  return render(request,'templates/pycode_editor.html',{})
