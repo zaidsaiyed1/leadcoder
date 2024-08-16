@@ -147,4 +147,6 @@ CKEDITOR_5_CONFIGS = {
         'remove_buttons': None,
     },
 }
+KEY = 'rzp_test_MvpQiSpTdPA9Dc' 
+SECRET = 'U8sxn70QX09trs5wLMhtG6uw'
 

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+              <meta charset="UTF-8">
+              <meta name="viewport" content="width=device-width, initial-scale=1.0">
+              <title>Quiz Invite</title>
+              <link rel="stylesheet" href="/static/css/invite.css">
+</head>
+<body>
+           
+<div class="container">
+              <div class="title">
+                  <h2>Quiz Invite Form</h2>
+              </div>
+            <div class="d-flex">
+              <form action="" method="post">
+                            {% csrf_token %}
+                <label>
+                  <span class="fname">Quiz Name <span class="required">*</span></span>
+                  {{form.quiz}}
+                </label>
+                <label>
+                  <span>College Name <span class="required">*</span></span>
+                  {{form.college}}
+                </label>
+                <label>
+                  <span>Branch Name <span class="required">*</span></span>
+                  {{form.branch}}
+                </label>
+                <label>
+                  <span>Passout Year <span class="required">*</span></span>
+                  {{form.passyear}}
+                </label>
+                <label>
+                  <span>Country <span class="required">*</span></span>
+                  {{form.country}}
+                </label>    
+                <label>
+                  <span>Phone <span class="required">*</span></span>
+                  {{form.phone}}
+                </label>
+                <label>
+                  <span>Email Address <span class="required">*</span></span>
+                  {{form.user}} 
+                </label>
+                <div class="Yorder">
+                              <button type="submit">Send Invite</button>
+                            </div><!-- Yorder -->
+              </form>
+</div>
+<script>
+  var form_fields = document.getElementsByTagName("input");
+  form_fields[1].placeholder = "LDCE/PDEU...";
+  form_fields[2].placeholder = "BE/BTECH/ME/MTECH CE/IT...";
+  form_fields[3].placeholder = "2024/2025";
+  form_fields[4].placeholder = "India/USA";
+  form_fields[5].placeholder = "+91 9890000000";
+  form_fields[6].placeholder = "example@gmail.com";
+
+  for (var field in form_fields) {
+    form_fields[field].className += " form-control";
+  }
+</script>
+
+  
+</body>
+</html>

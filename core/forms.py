@@ -39,3 +39,13 @@ class Quizf(forms.ModelForm):
                model=Quiz
                fields = ['title','category','user']
 
+class Orderf(forms.ModelForm):
+       class Meta:
+               model=Order
+               fields = ['user','plans','amount']
+
+class quizInvitef(forms.ModelForm):
+       class Meta:
+               model=quizInvite
+               fields = ['quiz','college','branch','passyear','phone','country','user']
+

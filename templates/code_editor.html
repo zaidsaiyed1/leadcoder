@@ -3,16 +3,23 @@
 <head>
               <meta charset="UTF-8">
               <meta name="viewport" content="width=device-width, initial-scale=1.0">
-              <title>Python - Code Editor</title>
+              <title>Code Editor</title>
               </head>
 <body>
              
     <body>
            
     <body>
+ 
+            {% if selectpy %}
               <div data-pym-src="https://www.jdoodle.com/embed/v1/abf2f93840ae340d"></div>
               <script src="https://www.jdoodle.com/assets/jdoodle-pym.min.js" type="text/javascript"> </script>
-         
+            {% elif selectc %}
+            <div data-pym-src="https://www.jdoodle.com/embed/v1/c5e6aa33cb4f9b90"></div>
+            <script src="https://www.jdoodle.com/assets/jdoodle-pym.min.js" type="text/javascript"> </script>
+            {% else %}
+            <h3>{{nothing}}</h3>
+            {% endif %}
           
                    
 </body>

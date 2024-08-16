@@ -1,8 +1,9 @@
 from django.http import HttpResponse
 from django.shortcuts import render,redirect
-from django.contrib.auth import authenticate,login,logout
 from .models import *
 from .forms import *
+import razorpay
+from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.contrib import messages
 from django.forms import inlineformset_factory
@@ -31,6 +32,9 @@ def contact_us(request):
   }
   return render(request,'templates/contact.html',context)
 
+def quizPlans(request):
+  context = {}
+  return render(request,'templates/plans_for_quiz_manager.html',context)
 
 def postUpload(request):
   if request.method =='POST':
@@ -287,29 +291,52 @@ def singlepost(request,pk):
 
 def displayAllQuiz(request):
   quiz = Quiz.objects.all()
- 
   context = {
-    'quiz':quiz
+    'quiz':quiz,
   }
   return render(request,'templates/all_quiz.html',context)
 
-def diplayQuiz(request,pk):
+def displayInstructionPageForQuiz(request,pk):
+  quizTaken=False
+  quizIn = False
+  userdata = request.user
+  quiz = Quiz.objects.get(quid=pk)
+  invite = quizInvite.objects.filter(quiz=quiz,user=userdata)
+  quizSubmit = QuizSubmit.objects.filter(user=userdata,quiz=quiz)
+  if quizSubmit.exists():
+    quizTaken = True
+  elif invite.exists():
+    quizIn = True
+  
+  print(quizTaken)
+  print(quizIn)
+  context = {
+          'quiz':quiz,
+          'quizTaken':quizTaken,
+          'quizIn':quizIn
+      }
+  return render(request,'templates/instructionPage.html',context)
+
+
+def displayQuiz(request,pk):
       question = Question.objects.filter(quiz=pk).order_by('qid').first()
       answer = Answer.objects.filter(question=question).all()
       return render(request,'templates/single_quiz.html',{'questions':question,'answer':answer})
 
 def submitAnswer(request,qid,quid):
     if request.method == 'POST':
+     submitQuizUser = request.user
+     if 'score' not in request.session:
+        request.session['score']=0
+     
      if 'Skip'in request.POST:
         if question:
              question = Question.objects.filter(quiz=quid,qid__gt=qid).exclude(qid=qid).order_by('qid').first()
              answer = Answer.objects.filter(question=question).all()
              request.session['score'] = request.session['score']  - question.marks
-             final_score = request.session['score'] 
+             final_score = request.session['score']
+             print(final_score)
 
-     submitQuizUser = request.user
-     if 'score' not in request.session:
-        request.session['score']=0
 
      question = Question.objects.filter(quiz=quid,qid__gt=qid).exclude(qid=qid).order_by('qid').first()
      answer = Answer.objects.filter(question=question).all()
@@ -353,13 +380,14 @@ def quizResult(request,quid):
     return render(request,'templates/quiz_result.html',context)
 
 def controlPanelForQuizManage(request):
-  # quizp = Quiz.objects.all()
+  user = request.user
+  quizp = Quiz.objects.filter(user=user).all()
   # questionp = Question.objects.filter(quiz=quizp).all()
   # quizSubmited = QuizSubmit.objects.filter(quiz=quizp).all()
   context = {
-  #  'quiz':quizp,
-  #  'question':questionp,
-  #  'quizSubmited':quizSubmited,
+     'quiz':quizp,
+    # 'question':questionp,
+    # 'quizSubmited':quizSubmited,
   }
   return render(request,'templates/admin.html',context)
 
@@ -387,5 +415,106 @@ def QuizResultPageForQuizManage(request):
 def success(request):
   return HttpResponse('Upload SuccessFully')
 
+def order(request,pk):
+   plan = Plans.objects.get(pid=pk)
+   context = {
+     'plan':plan
+   }
+   return render(request,'templates/order.html',context)
+
+def orderHandle(request,name,amount):
+  if request.method == 'POST':
+    cn = request.POST['cn']
+    email = request.user
+    plan = Plans.objects.get(name=name) 
+    amountd = plan.amount
+    data = Order(user=email,plans=plan,company=cn,amount=amount)
+    data.save()
+    amountpay = amountd*100
+    print(amountpay)
+  client = razorpay.Client(auth=(settings.KEY, settings.SECRET))
+  payment = client.order.create({
+                         "amount":amountpay,
+                         "currency": "INR",
+                         "receipt": "receipt#1",
+                         "line_items_total": 50000})
+  data1 = Order.objects.get(user=email)
+  data1.razorpay_order_id = payment['id']
+  data1.save()
+  print(payment)
+  return render(
+            request,
+            "templates/payment.html",
+            {
+                "data": data,
+                "payment":payment
+            },
+        )
+def selectLanguage(request):
+  category = Category.objects.all()
+  context = {
+    'category':category
+  }
+  return render(request,'templates/select_language.html',context)
+
 def code_Editor(request):
-  return render(request,'templates/pycode_editor.html',{})
+  selectpy = False
+  selectc = False
+  cat = request.POST['select_id']
+  category = Category.objects.get(name=cat)
+  if category.name == 'Python':
+    selectpy = category
+  elif category.name == 'C':
+     selectc = category
+  else:
+    print('Nothing')
+  context = {
+    'selectpy':selectpy,
+    'selectc':selectc,
+    
+  }
+  return render(request,'templates/code_editor.html',context)
+
+def contactUsRequest(request):
+  if request.method == 'POST':
+    name = request.POST['name']
+    number = request.POST['number']
+    email = request.POST['email']
+    message = request.POST['message']
+    data = contactus(name=name,number=number,email=email,body=message);
+    data.save();
+    messages.success(request,'Request Has Bean Submitted!')
+  return redirect('contact')
+
+def quizinvite(request):
+  if request.method == 'POST':
+    form =quizInvitef(request.POST,request.FILES)
+    if form.is_valid():
+     form.save();
+     return redirect('success')
+  
+  else:
+    form = quizInvitef()
+  
+  context = {
+    'form':form
+  }
+  return render(request,'templates/quizInviteForm.html',context)
+
+def inviteHanle(request):
+  if request.method == 'POST':
+    quizname = request.POST['quizname']
+    collegen = request.POST['cn']
+    branchn = request.POST['bn']
+    passoutyear = request.POST['passout']
+    countryn = request.POST['selection']
+    phonen = request.POST['number']
+    email = request.POST['email']
+    quizData = Quiz.objects.get(title=quizname)
+    data = quizInvite(quiz=quizData,college=collegen,branch=branchn,passyear=passoutyear,phone=phonen,country=countryn,user=email)
+    data.save()
+    return redirect('success')
+
+def paymentSuccess(request):
+  context = {}
+  return render(request,'templates/successPayment.html',context)

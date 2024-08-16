@@ -50,13 +50,14 @@
             </li> -->
           <li>
             <i class="uil uil-user-circle"></i>
-            <a href="/adminprofile/{{admin.Admin_username}}"
+            <a href="/adminprofile/{{request.user.first_name}}"
               ><span>Account</span></a
             >
           </li>
           <li>
             <i class="uil uil-signin"></i>
-            <span>Logout</span>
+            <a  href="{% url 'logout' %}">
+              <span>Logout</span></a>
           </li>
         </ul>
       </div>
@@ -73,9 +74,9 @@
           <a href="/questionUpload/" class="link"> Add Question's</a>
         </button>
         <div class="admin-box flex">
-          <img src="/static/img/logo7.jpg" width="30px" height="30px" />
+          <img src="/static/img/lc/logo-white.png" width="30px" height="30px" />
           <div>
-            <h4>{{admin.Admin_username}}</h4>
+            <h4>{{request.user.first_name}}</h4>
             <small>Admin</small>
           </div>
         </div>
@@ -132,7 +133,7 @@
                   </tr>
                 </th>
               </thead>
-
+              {% for quiz in quiz %}
               <tbody>
                 <tr>
                   <td>{{quiz.title}}</td>
@@ -148,6 +149,7 @@
                   </td>
                 </tr>
               </tbody>
+              {% endfor %}
             </table>
           </div>
 

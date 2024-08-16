@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+              <meta charset="UTF-8">
+              <meta name="viewport" content="width=device-width, initial-scale=1.0">
+              <title>InstructionPage For Quiz - LEADCODER</title>
+              <!-- slider stylesheet -->
+  <!-- slider stylesheet -->
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" />
+
+  <!-- bootstrap core css -->
+  <link rel="stylesheet" type="text/css" href="/static/css/bootstrap.css" />
+
+  <!-- fonts style -->
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700|Poppins:400,700&display=swap" rel="stylesheet">
+  <!-- Custom styles for this template -->
+  <link href="/static/css/style.css" rel="stylesheet" />
+  <!-- responsive style -->
+  <link href="/static/css/responsive.css" rel="stylesheet" />
+</head>
+<body>
+              <p class="card-text">You want to take a quiz then first register your self!📥</p>
+              <p class="card-text">Attempts: 01 ✍</p>   
+                {% if quizTakenIn %}
+                  <button href="" class="btn btn-primary" disabled>Not Elligible</button>
+                {% elif quizIn %}
+                <button href="" class="btn btn-primary" disabled>You dont have this quiz access !</button>
+                {% else %}
+                <a href="/displayQuiz/{{quiz.pk}}/" class="btn btn-primary">Take Quiz!</a>
+               {% endif %}
+             
+</body>
+</html>
