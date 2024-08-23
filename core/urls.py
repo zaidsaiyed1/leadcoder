@@ -38,6 +38,7 @@ urlpatterns = [
    path('quizDelete/<int:pk>/',views.quizDelete,name='quizDelete'),
    path('singlepost/<int:pk>/',views.singlepost,name='singlepost'),
    path('displayAllQuiz/',views.displayAllQuiz,name='displayAllQuiz'),
+   path('displayAllInvitedQuiz/',views.displayAllInvitedQuiz,name='displayAllInvitedQuiz'),
    path('displayInstructionPageForQuiz/<int:pk>/',views.displayInstructionPageForQuiz,name='displayInstructionPageForQuiz'),
    path('displayQuiz/<int:pk>/',views.displayQuiz,name='displayQuiz'),
    path('submitAnswer/<int:qid>/<int:quid>/',views.submitAnswer,name='submitAnswer'),

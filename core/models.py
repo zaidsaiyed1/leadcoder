@@ -32,6 +32,7 @@ class Quiz(models.Model):
        title = models.CharField(max_length=200,null=True)
        category = models.ForeignKey(Category,on_delete= models.CASCADE)
        user = models.ForeignKey(CustomUser,on_delete=models.CASCADE)
+       company = models.CharField(max_length=50,default='@LEADCODER',blank=True)
        created_at = models.DateTimeField(auto_now_add=True)
        updated_at = models.DateTimeField(auto_now=True)
        def __str__(self):

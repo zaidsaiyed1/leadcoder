@@ -290,33 +290,54 @@ def singlepost(request,pk):
   return render(request,'templates/single-post.html',context)
 
 def displayAllQuiz(request):
-  quiz = Quiz.objects.all()
+  quiz = Quiz.objects.filter(company='@LEADCODER').all().order_by('-created_at')
+
   context = {
     'quiz':quiz,
   }
   return render(request,'templates/all_quiz.html',context)
 
+def displayAllInvitedQuiz(request):
+  quizin=False
+  userdata = request.user
+  quizinviteData = quizInvite.objects.filter(user=userdata)
+  quizinviteGetData = quizInvite.objects.filter(user=userdata).all()
+  if quizinviteData.exists():
+      quizin = True
+ 
+
+  context = {
+    'quizin':quizin,
+    'quizinviteData':quizinviteData,
+    'quizinviteGetData':quizinviteGetData
+  }
+  return render(request,'templates/all_quiz_for_hiring.html',context)
+
 def displayInstructionPageForQuiz(request,pk):
   quizTaken=False
-  quizIn = False
+  quizIn=False
+  quizTIN = False
   userdata = request.user
   quiz = Quiz.objects.get(quid=pk)
-  invite = quizInvite.objects.filter(quiz=quiz,user=userdata)
   quizSubmit = QuizSubmit.objects.filter(user=userdata,quiz=quiz)
+  quizInvitedata = quizInvite.objects.filter(user=userdata,quiz=quiz)
   if quizSubmit.exists():
-    quizTaken = True
-  elif invite.exists():
+      quizTaken = True
+  elif quizInvitedata.exists():
     quizIn = True
-  
-  print(quizTaken)
+  else:
+      quizTIN = True
+
   print(quizIn)
+  print(quizTaken)
+
   context = {
           'quiz':quiz,
           'quizTaken':quizTaken,
-          'quizIn':quizIn
+          'quizIn':quizIn,
+          'quizTIN':quizTIN
       }
   return render(request,'templates/instructionPage.html',context)
-
 
 def displayQuiz(request,pk):
       question = Question.objects.filter(quiz=pk).order_by('qid').first()

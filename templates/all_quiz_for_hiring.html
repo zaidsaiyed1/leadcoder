@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>Quiz</title>
+  <title>Hiring-Quiz</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   
@@ -76,27 +76,45 @@
 </div>
 <br />
 <div class="container">
-  <h2>All Quiz is listed </h2>
-  <p>Check the latest Quiz by our company. Make your skill to another level!<br>Best of Luck👍.</p>
-  {% for quiz in quiz %}
+{% if quizin %}
+  {% for quizinviteGetData in quizinviteGetData %}
   <div class="card">
     <div class="card-header">
-      Created-By: {{quiz.company}} 
+      Created-By: {{quizinviteGetData.quiz.company}} 
     </div>
     <div class="card-body">
-      <h4 class="card-title">{{quiz.title}}</h4>
-      <p class="card-text">{{quiz.category}}&nbsp;&nbsp;{{quiz.created_at}}</p>
+      <h4 class="card-title">{{quizinviteGetData.quiz.title}}</h4>
+      <p class="card-text">{{quizinviteGetData.quiz.category}}&nbsp;&nbsp;{{quizinviteGetData.quiz.created_at}}</p>
       <p class="card-text">You want to take a quiz then first register your self!📥</p>
       <p class="card-text">Attempts: 01 ✍</p>
-     
+  
       {% if user.is_authenticated %}
-          <a href="/displayInstructionPageForQuiz/{{quiz.pk}}/" class="btn btn-primary">Take Quiz!</a>
+          <a href="/displayInstructionPageForQuiz/{{quizinviteGetData.quiz.pk}}/" class="btn btn-primary">Take Quiz!</a>
       {% else %}
       <a href="{% url 'register' %}" class="btn btn-primary">SignUp/Login</a>
        {% endif %}
     </div>
   </div>
   {% endfor %}
-</div>
-</body>
-</html>
+{% else %}
+  <div class="card">
+    <div class="card-header">
+      Message-By: @LEADCODER 
+    </div>
+    <div class="card-body">
+      <p class="card-text">You haven't received an invitation to any quiz yet.</p>
+      <p class="card-text">You can go to our website 'Quiz' section, There many quizzes are listed to help to boost your confidence.</p>
+      <p class="card-text">Best Of Luck 👍</p>
+      {% if user.is_authenticated %}
+          <a href="/displayAllQuiz/" class="btn btn-primary">Go to All Quiz!</a>
+      {% else %}
+      <a href="{% url 'register' %}" class="btn btn-primary">SignUp/Login</a>
+       {% endif %}
+    </div>
+  </div>
+{% endif %}
+  </div>
+  </body>
+  </html>
+  
+
