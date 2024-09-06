@@ -9,6 +9,7 @@ class CustomUser(AbstractUser):
    is_student = models.BooleanField(default=True)
    is_quizManager = models.BooleanField(default=False)
    is_docsManager = models.BooleanField(default=False)
+   is_order = models.BooleanField(default=False,blank=True)
    USERNAME_FIELD = 'email'
    REQUIRED_FIELDS = []
    objects = CustomUserManager()

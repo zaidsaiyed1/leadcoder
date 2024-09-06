@@ -21,13 +21,21 @@
 <body>
               <p class="card-text">You want to take a quiz then first register your self!📥</p>
               <p class="card-text">Attempts: 01 ✍</p>   
-                {% if quizTakenIn %}
-                  <button href="" class="btn btn-primary" disabled>Not Elligible</button>
-                {% elif quizIn %}
-                <button href="" class="btn btn-primary" disabled>You dont have this quiz access !</button>
-                {% else %}
+            {% if quizTaken %}
+                  {% if quizTaken %}
+                   <button href="" class="btn btn-primary" disabled>This Quiz is already taken by you!</button>
+                  {% else %}
+                   <a href="/displayQuiz/{{quiz.pk}}/" class="btn btn-primary">Take Quiz!</a>
+                  {% endif %}
+            {% elif quizIn %}
+                  {% if quizIn %}
+                   <a href="/displayQuiz/{{quiz.pk}}/" class="btn btn-primary">Take Quiz!</a>
+                  {% else %}
+                   <button href="" class="btn btn-primary" disabled>You dont have this quiz access !</button>
+                  {% endif %}
+            {% else %}
                 <a href="/displayQuiz/{{quiz.pk}}/" class="btn btn-primary">Take Quiz!</a>
-               {% endif %}
+            {% endif %}
              
 </body>
 </html>

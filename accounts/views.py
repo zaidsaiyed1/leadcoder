@@ -1,7 +1,9 @@
+from datetime import datetime
 from django.shortcuts import render,redirect
 from django.contrib import messages
 from django.contrib.auth import authenticate,login,logout
 from .forms import *
+from core.models import *
 from django.http import HttpResponse
 # Create your views here.
 def testing(request):
@@ -46,9 +48,23 @@ def loginhandle(request):
      loginuser = authenticate(email=lusername,password=lpassword)
      if loginuser is not None:
         if loginuser.is_quizManager == True and loginuser.is_docsManager == False:
-          login(request,loginuser)
-          messages.success(request,'Logged In Successfully ' + lusername)
-          return redirect('controlPanelForQuizManage')
+           if loginuser.is_order==False:
+             login(request,loginuser)
+             messages.success(request,'Logged In Successfully ' + lusername)
+             return redirect('plansForQuiz')
+           elif loginuser.is_order==True:
+            data = Order.objects.get(user=loginuser)
+            if data.checkUserOrderExpire():
+              messages.warning(request,'Your Plans Is expired! Re-Login!')
+              data.delete()
+              loginuser.is_order = False
+              loginuser.save()  
+              return redirect('login')
+            else:
+              login(request,loginuser)
+              messages.success(request,'Logged In Successfully ' + lusername)
+              return redirect('controlPanelForQuizManage')
+            
         elif loginuser.is_docsManager == True and loginuser.is_quizManager == False:
           login(request,loginuser)
           messages.success(request,'Logged In Successfuly ' + lusername)

@@ -1,7 +1,12 @@
 from django.http import HttpResponse
 from django.shortcuts import render,redirect
+from django.contrib.auth.decorators import login_required
 from .models import *
+import datetime
 from .forms import *
+from django.utils import timezone
+from django.db.models import F, DurationField, Sum, ExpressionWrapper
+from datetime import datetime, time, timedelta
 import razorpay
 from django.conf import settings
 from django.contrib.auth import get_user_model
@@ -33,7 +38,16 @@ def contact_us(request):
   return render(request,'templates/contact.html',context)
 
 def quizPlans(request):
-  context = {}
+  quizP=False
+  user = request.user
+  orderData = Order.objects.filter(user=user)
+  orderGetData = Order.objects.filter(user=user)
+  if orderData.exists():
+    quizP = True
+  context = {'orderData':orderData,
+             'orderGetData':orderGetData,
+             'quizP':quizP
+             }
   return render(request,'templates/plans_for_quiz_manager.html',context)
 
 def postUpload(request):
@@ -313,10 +327,10 @@ def displayAllInvitedQuiz(request):
   }
   return render(request,'templates/all_quiz_for_hiring.html',context)
 
+
 def displayInstructionPageForQuiz(request,pk):
   quizTaken=False
   quizIn=False
-  quizTIN = False
   userdata = request.user
   quiz = Quiz.objects.get(quid=pk)
   quizSubmit = QuizSubmit.objects.filter(user=userdata,quiz=quiz)
@@ -325,8 +339,7 @@ def displayInstructionPageForQuiz(request,pk):
       quizTaken = True
   elif quizInvitedata.exists():
     quizIn = True
-  else:
-      quizTIN = True
+ 
 
   print(quizIn)
   print(quizTaken)
@@ -335,7 +348,6 @@ def displayInstructionPageForQuiz(request,pk):
           'quiz':quiz,
           'quizTaken':quizTaken,
           'quizIn':quizIn,
-          'quizTIN':quizTIN
       }
   return render(request,'templates/instructionPage.html',context)
 
@@ -380,7 +392,6 @@ def submitAnswer(request,qid,quid):
           final_score = request.session['score'] 
           quizSubmitQ = QuizSubmit(quiz=quiz,score=final_score,user=submitQuizUser);
           quizSubmitQ.save();
-          
           request.session.modified = True
           return quizResult(request,quid)
      
@@ -461,6 +472,10 @@ def orderHandle(request,name,amount):
                          "line_items_total": 50000})
   data1 = Order.objects.get(user=email)
   data1.razorpay_order_id = payment['id']
+  data1.one_month()
+  userData = CustomUser.objects.get(email=email)
+  userData.is_order = True
+  userData.save()
   data1.save()
   print(payment)
   return render(
@@ -468,7 +483,7 @@ def orderHandle(request,name,amount):
             "templates/payment.html",
             {
                 "data": data,
-                "payment":payment
+                "payment":payment,
             },
         )
 def selectLanguage(request):

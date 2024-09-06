@@ -1,3 +1,4 @@
+from datetime import *
 import random
 from django.db import models
 from ckeditor_uploader.fields import RichTextUploadingField
@@ -107,11 +108,23 @@ class Order(models.Model):
        plans = models.ForeignKey(Plans,on_delete=models.CASCADE)
        company = models.CharField(max_length=30,null=False)
        amount = models.IntegerField(null=False)
+       start_date = models.DateTimeField(auto_now_add=True,blank=True)
+       end_date = models.DateTimeField(auto_now_add=False,null=True,blank=True)
        razorpay_order_id = models.CharField(max_length=100,null=False)
        razorpay_payment_id = models.CharField(max_length=100,null=False,blank=True)
        razorpay_payment_signature = models.CharField(max_length=100,null=False,blank=True)
        def __str__(self):
               return self.company
+       
+       def one_month(self):
+              start_date=self.start_date
+              self.end_date = start_date+timedelta(days=30)
+              return self.end_date   
+       
+       def checkUserOrderExpire(self):
+              end_date = self.end_date
+              now = datetime.now()
+              return end_date <= now
        
 class contactus(models.Model):
        cusid = models.BigAutoField(primary_key=True)

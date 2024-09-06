@@ -37,7 +37,7 @@ class AnswerForProblemf(forms.ModelForm):
 class Quizf(forms.ModelForm):
        class Meta:
                model=Quiz
-               fields = ['title','category','user']
+               fields = ['title','category','user','company']
 
 class Orderf(forms.ModelForm):
        class Meta:

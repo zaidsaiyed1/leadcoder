@@ -61,3 +61,10 @@ ection.pricing {
                 opacity: 1;
               }
             }
+            
+      #messages {
+        background-color: grey;
+        color: #086618;
+        padding: 10px;
+        margin-top: 10px;
+      }
