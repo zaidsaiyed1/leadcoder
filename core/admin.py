@@ -8,11 +8,18 @@ class AnswerAdmin(admin.StackedInline):
 
 class QuestionAdmin(admin.ModelAdmin):
     inlines = [AnswerAdmin]
+
+class QuestionForQuiz(admin.StackedInline):
+    model = Question
+
+class QuizAdmin(admin.ModelAdmin):
+    inlines = [QuestionForQuiz]
+
 admin.site.register(Question,QuestionAdmin)
 admin.site.register(Answer)
 admin.site.register(Problem)
 admin.site.register(AnswerForProblem)
-admin.site.register(Quiz)
+admin.site.register(Quiz,QuizAdmin)
 admin.site.register(QuizSubmit)
 admin.site.register(Order)
 admin.site.register(Plans)

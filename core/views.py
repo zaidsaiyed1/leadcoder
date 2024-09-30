@@ -1,5 +1,5 @@
 from django.http import HttpResponse
-from django.shortcuts import render,redirect
+from django.shortcuts import get_object_or_404, render,redirect
 from django.contrib.auth.decorators import login_required
 from .models import *
 import datetime
@@ -352,12 +352,21 @@ def displayInstructionPageForQuiz(request,pk):
   return render(request,'templates/instructionPage.html',context)
 
 def displayQuiz(request,pk):
+      quizd = get_object_or_404(Quiz, pk=pk)
+      start_time = timezone.now()
+      end_time = start_time + timezone.timedelta(minutes=quizd.end_time)
+
+      request.session['end_time'] = end_time.strftime('%Y-%m-%d %H:%M:%S')
+
       question = Question.objects.filter(quiz=pk).order_by('qid').first()
+      quizd = Quiz.objects.get(pk=pk)
       answer = Answer.objects.filter(question=question).all()
-      return render(request,'templates/single_quiz.html',{'questions':question,'answer':answer})
+      return render(request,'templates/single_quiz.html',{'questions':question,'answer':answer,'end_time':end_time})
 
 def submitAnswer(request,qid,quid):
     if request.method == 'POST':
+     session_end_time = request.session.get('end_time')
+     end_time = datetime.strptime(session_end_time, '%Y-%m-%d %H:%M:%S')
      submitQuizUser = request.user
      if 'score' not in request.session:
         request.session['score']=0
@@ -370,7 +379,6 @@ def submitAnswer(request,qid,quid):
              final_score = request.session['score']
              print(final_score)
 
-
      question = Question.objects.filter(quiz=quid,qid__gt=qid).exclude(qid=qid).order_by('qid').first()
      answer = Answer.objects.filter(question=question).all()
      quiz = Quiz.objects.get(quid=quid)
@@ -378,25 +386,26 @@ def submitAnswer(request,qid,quid):
      anssubmit= Answer.objects.get(id=answersubmit)
      if anssubmit.is_correct==True:
        request.session['score'] = request.session.get('score', 0) +  anssubmit.question.marks
-       final_score = request.session['score'] 
-       print(final_score)
+       final_score = request.session['score']
+       print(final_score) 
        if not question: 
          quizSubmitQ = QuizSubmit(quiz=quiz,score=final_score,user=submitQuizUser);
          quizSubmitQ.save();
          return quizResult(request,quid)
        else:
-               return render(request, 'templates/single_quiz.html', {'questions':question, 'answer':answer})
+               return render(request, 'templates/single_quiz.html', {'questions':question, 'answer':answer,'end_time':end_time})
      else:
+          print("zero") 
           if question:
-               return render(request, 'templates/single_quiz.html', {'questions':question, 'answer':answer})
-          final_score = request.session['score'] 
+               return render(request, 'templates/single_quiz.html', {'questions':question, 'answer':answer,'end_time':end_time})
+          final_score = request.session['score']
           quizSubmitQ = QuizSubmit(quiz=quiz,score=final_score,user=submitQuizUser);
           quizSubmitQ.save();
           request.session.modified = True
           return quizResult(request,quid)
      
     del request.session['score']   
-    return render(request, 'templates/single_quiz.html', {'questions':question, 'answer':answer})
+    return render(request, 'templates/single_quiz.html', {'questions':question, 'answer':answer,'end_time':end_time})
     
 def quizResult(request,quid):
     del request.session['score']
