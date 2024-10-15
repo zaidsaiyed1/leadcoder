@@ -422,11 +422,34 @@ def quizResult(request,quid):
 
 def controlPanelForQuizManage(request):
   user = request.user
+  quizUploadData = False
+  
+  userorder = request.user.is_order
+  if userorder == True:
+    dataorder = Order.objects.get(user=user)
+    basic = Plans.objects.get(name='Basic')
+    medium = Plans.objects.get(name='Medium')
+    advance = Plans.objects.get(name='Advance')
+    if dataorder.plans==basic:
+        quizCount = Quiz.objects.filter(user=user).count()
+        if quizCount == 2:
+           quizUploadData = True
+    # elif dataorder.plans==medium:
+    #   return
+    # elif dataorder.plans==advance:
+    #   return
+       
+  else:
+    return redirect('success')     
+
+
   quizp = Quiz.objects.filter(user=user).all()
   # questionp = Question.objects.filter(quiz=quizp).all()
   # quizSubmited = QuizSubmit.objects.filter(quiz=quizp).all()
   context = {
      'quiz':quizp,
+     'quizUploadData':quizUploadData,
+     
     # 'question':questionp,
     # 'quizSubmited':quizSubmited,
   }
@@ -438,6 +461,39 @@ def allQuizPageForQuizManage(request):
     'quiz':quiz
   }
   return render(request,'templates/allQuizPageForQuizManage.html',context)
+
+def quizInvitePageForAdmin(request,pk):
+  user = request.user
+  quizInviteDataFor50 = False
+  quizInviteDataFor70 = False
+  quizInviteDataForUnlim = False 
+  dataorder = Order.objects.get(user=user)
+  basic = Plans.objects.get(name='Basic')
+  medium = Plans.objects.get(name='Medium')
+  advance = Plans.objects.get(name='Advance')
+  quizData = Quiz.objects.get(pk=pk)
+  quizInviteDisplay = quizInvite.objects.filter(quiz=quizData).order_by('-invited_at').all()
+  quizInviteCount = quizInvite.objects.filter(quiz=quizData).count()
+  if dataorder.plans == basic:
+     if quizInviteCount == 50:
+       quizInviteDataFor50 = True
+  elif dataorder.plans == medium:
+     if quizInviteCount == 70:
+       quizInviteDataFor70 = True
+  else:
+    quizInviteDataForUnlim = True
+  
+       
+
+  context = {
+    'quizData':quizData,
+    'quizInviteCount':quizInviteCount,
+    'quizInviteDisplay':quizInviteDisplay,
+    'quizInviteDataFor50':quizInviteDataFor50,
+    'quizInviteDataFor70':quizInviteDataFor70,
+    'quizInviteDataForUnlim':quizInviteDataForUnlim,
+  }
+  return render(request,'templates/quizInvitePageForAdmin.html',context)
 
 def QuizSubmissionPageForQuizManage(request):
   quizp = Quiz.objects.get(quid=4)
@@ -531,7 +587,8 @@ def contactUsRequest(request):
     messages.success(request,'Request Has Bean Submitted!')
   return redirect('contact')
 
-def quizinvite(request):
+def quizinvite(request,pk):
+  quizData = Quiz.objects.get(pk=pk)
   if request.method == 'POST':
     form =quizInvitef(request.POST,request.FILES)
     if form.is_valid():
@@ -542,23 +599,48 @@ def quizinvite(request):
     form = quizInvitef()
   
   context = {
-    'form':form
+    'form':form,
+    'quizData':quizData
   }
   return render(request,'templates/quizInviteForm.html',context)
 
-def inviteHanle(request):
+def editquizinvite(request,pk,quid):
+  quizData = Quiz.objects.get(quid=quid)
+  dataget = quizInvite.objects.get(pk=pk)
+  form = quizInvitef(instance=dataget)
   if request.method == 'POST':
-    quizname = request.POST['quizname']
-    collegen = request.POST['cn']
-    branchn = request.POST['bn']
-    passoutyear = request.POST['passout']
-    countryn = request.POST['selection']
-    phonen = request.POST['number']
-    email = request.POST['email']
-    quizData = Quiz.objects.get(title=quizname)
-    data = quizInvite(quiz=quizData,college=collegen,branch=branchn,passyear=passoutyear,phone=phonen,country=countryn,user=email)
-    data.save()
-    return redirect('success')
+    form = quizInvitef(request.POST,request.FILES,instance=dataget)
+    if form.is_valid():
+      form.save();
+      return redirect('success')
+  
+  context = {
+    'form':form,
+    'quizData':quizData
+  }
+  return render(request,'templates/quizInviteForm.html',context)
+
+def conformQuizInviteForDelete(request,pk):
+    data = quizInvite.objects.get(pk=pk)
+    context = {
+      'data':data
+    }
+    return render(request,'templates/conformQuizInvite.html',context)
+
+def quizInviteDelete(request,pk):
+  data = quizInvite.objects.get(pk=pk)
+  data.delete()
+  return redirect('controlPanelForQuizManage')
+  
+
+def deletequizinvite(request,pk):
+  dataget = quizInvite.objects.get(pk=pk)
+ 
+  context = {
+    
+  }
+  return render(request,'templates/quizInviteForm.html',context)
+
 
 def paymentSuccess(request):
   context = {}

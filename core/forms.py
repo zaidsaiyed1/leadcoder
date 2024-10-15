@@ -17,6 +17,7 @@ class Questionf(forms.ModelForm):
         class Meta:
                 model = Question
                 fields = ['category','quiz','question','marks']
+        
 
 class Answerf(forms.ModelForm):
         class Meta:
@@ -37,7 +38,7 @@ class AnswerForProblemf(forms.ModelForm):
 class Quizf(forms.ModelForm):
        class Meta:
                model=Quiz
-               fields = ['title','category','user','company']
+               fields = ['title','category','user','company','end_time']
 
 class Orderf(forms.ModelForm):
        class Meta:
@@ -47,5 +48,4 @@ class Orderf(forms.ModelForm):
 class quizInvitef(forms.ModelForm):
        class Meta:
                model=quizInvite
-               fields = ['quiz','college','branch','passyear','phone','country','user']
-
+               fields = ['quiz','college','branch','passyear','phone','country','user']       

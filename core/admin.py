@@ -15,7 +15,9 @@ class QuestionForQuiz(admin.StackedInline):
 class QuizAdmin(admin.ModelAdmin):
     inlines = [QuestionForQuiz]
 
+
 admin.site.register(Question,QuestionAdmin)
+
 admin.site.register(Answer)
 admin.site.register(Problem)
 admin.site.register(AnswerForProblem)

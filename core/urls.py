@@ -47,12 +47,15 @@ urlpatterns = [
    path('allQuizPageForQuizManage/',views.allQuizPageForQuizManage,name='allQuizPageForQuizManage'),
    path('QuizSubmissionPageForQuizManage/',views.QuizSubmissionPageForQuizManage,name='QuizSubmissionPageForPageQuizManage'),
    path('QuizResultPageForQuizManage/',views.QuizResultPageForQuizManage,name='QuizResultPageForQuizManage'),
+   path('quizInvitePageForAdmin/<int:pk>/',views.quizInvitePageForAdmin,name="quizInvitePageForAdmin"),
    path('selectLanguage/',views.selectLanguage,name='selectLanguage'),
    path('code/',views.code_Editor,name='code'),
    path('order/<int:pk>/',views.order,name='order'),
    path('orderhandle/<str:name>/<int:amount>/',views.orderHandle,name='orderhandle'),
-   path('quizInvite/',views.quizinvite,name='quizInvite'),
-   path('inviteHandle/',views.inviteHanle,name='inviteHandle'),
+   path('quizInvite/<int:pk>/',views.quizinvite,name='quizInvite'),
+   path('editquizInvite/<int:pk>/<int:quid>/',views.editquizinvite,name='editquizInvite'),
+   path('conformQuizInviteForDelete/<int:pk>/',views.conformQuizInviteForDelete,name='conformQuizInviteForDelete'),
+   path('quizInviteDelete/<int:pk>/',views.quizInviteDelete,name='quizInviteDelete'),
    path('paymentSuccess/',views.paymentSuccess,name="paymentSuccess"),
 ] 
 

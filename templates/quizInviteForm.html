@@ -17,7 +17,10 @@
                             {% csrf_token %}
                 <label>
                   <span class="fname">Quiz Name <span class="required">*</span></span>
-                  {{form.quiz}}
+                  <select name="quiz" required id="id_quiz">
+                    <option value="" selected>---------</option>
+                    <option value="{{quizData.pk}}">{{quizData.title}}</option>
+                  </select>
                 </label>
                 <label>
                   <span>College Name <span class="required">*</span></span>
@@ -45,7 +48,7 @@
                 </label>
                 <div class="Yorder">
                               <button type="submit">Send Invite</button>
-                            </div><!-- Yorder -->
+                            </div>
               </form>
 </div>
 <script>

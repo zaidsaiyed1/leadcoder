@@ -69,14 +69,6 @@
           <i class="uil uil-bars" id="menu-icon"></i>
           Dashboard
         </h2>
-        {% if quizUploadData %}
-        <button disabled>Quiz Upload get limit!</button>
-        {% else %}
-        <button><a href="/quizUpload/" class="link"> Add Quiz</a></button>
-        {% endif %}
-        <button>
-          <a href="/questionUpload/" class="link"> Add Question's</a>
-        </button>
         <div class="admin-box flex">
           <img src="/static/img/lc/logo-white.png" width="30px" height="30px" />
           <div>
@@ -86,80 +78,91 @@
         </div>
       </header>
       {% if messages %}
-      <ul id="messages">  
+      <ul id="messages">
            {% for message in messages %}
             {{ message }}<br></li>
       {% endfor %}
       </ul>
       {% endif %}
       <main>
-        <div class="cards">
-          <div class="single-card">
-            <div>
-              <span>Membership Amount-(MONTHLY)</span>
-              <h2>₹- 40,000</h2>
-            </div>
-            <i class="uil uil-calender"></i>
-          </div>
-          <div class="single-card">
-            <div>
-              <span>Total Quiz Register</span>
-              <h2>{{userTotal}}</h2>
-            </div>
-            <i class="uil uil-dollar-sign-alt"></i>
-          </div>
-          <div class="single-card">
-            <div>
-              <span>Total Submissions Register</span>
-              <h2>{{productTotal}}</h2>
-            </div>
-            <i class="uil uil-chart-bar"></i>
-          </div>
-        </div>
-
         <div class="wrapper flex">
           <div class="projects">
             <div class="card-header flex">
-              <h3>Recents Quiz's</h3>
-              <button>
-                <a href="/userpageforadmin/"> See all > </a><i class="link"></i>
+              <h3>Quiz Invitation's</h3>
+              {% if quizInviteDataFor50 %}
+                {% if quizInviteDataFor50 %}
+              <button disabled>
+                <a href="" class="btn btn-primary">You Got the limit to Invite!</a><i class="link"></i>
               </button>
+                {% else %}
+              <button>
+                <a href="/quizInvite/{{quizData.pk}}/" class="btn btn-primary">Create New Invite!</a><i class="link"></i>
+              </button>
+               {% endif %}
+              {% elif quizInviteDataFor70 %}
+                {% if quizInviteDataFor70 %}
+                <button disabled>
+                  <a href="" class="btn btn-primary">You Got the limit to Invite!</a><i class="link"></i>
+                </button>
+                  {% else %}
+                <button>
+                  <a href="/quizInvite/{{quizData.pk}}/" class="btn btn-primary">Create New Invite!</a><i class="link"></i>
+                </button>
+                 {% endif %}
+              {% else %}
+                {% if quizInviteDataForUnlim %}
+                <button disabled>
+                  <a href="" class="btn btn-primary">You Got the limit to Invite!</a><i class="link"></i>
+                </button>
+                  {% else %}
+                <button>
+                  <a href="/quizInvite/{{quizData.pk}}/" class="btn btn-primary">Create New Invite!</a><i class="link"></i>
+                </button>
+                 {% endif %}
+              {% endif %}
             </div>
 
             <table>
               <thead>
                 <th>
                   <tr>
-                    <td>Name</td>
-                    <td>Category</td>
-                    <td>Created at</td>
+                    <td>Quiz Name</td>
+                    <td>College</td>
+                    <td>Branch</td>
+                    <td>Passout Year</td>
+                    <td>Phone</td>
+                    <td>Country</td>
+                    <td>user</td>
+                    <td>Invited_at</td>
                     <td>Action</td>
                   </tr>
                 </th>
               </thead>
-              {% for quiz in quiz %}
+              {% for quizInviteDisplay in quizInviteDisplay %}
               <tbody>
                 <tr>
-                  <td>{{quiz.title}}</td>
-                  <td>{{quiz.category}}</td>
-                  <td>{{quiz.created_at}}</td>
+                  <td>{{quizInviteDisplay.quiz}}</td>
+                  <td>{{quizInviteDisplay.college}}</td>
+                  <td>{{quizInviteDisplay.branch}}</td>
+                  <td>{{quizInviteDisplay.passyear}}</td>
+                  <td>{{quizInviteDisplay.phone}}</td>
+                  <td>{{quizInviteDisplay.country}}</td>
+                  <td>{{quizInviteDisplay.user}}</td>
+                  <td>{{quizInviteDisplay.invited_at}}</td>
                   <td>
-                    <a href="/quizEdit/{{quiz.pk}}"
-                      ><span class="glyphicon glyphicon-pencil">Edit</span></a
+                    <a href="/editquizInvite/{{quizInviteDisplay.pk}}/{{quizInviteDisplay.quiz.quid}}/">
+                            <span class="glyphicon glyphicon-pencil">Edit</span></a
                     >
-                    <a href="/conformQuizForDelete/{{quiz.pk}}"
+                    <a href="/conformQuizInviteForDelete/{{quizInviteDisplay.pk}}/"
                       ><span class="glyphicon glyphicon-pencil">Delete</span></a
                     >
-                    <a href="/quizInvitePageForAdmin/{{quiz.pk}}"
-                    ><span class="glyphicon glyphicon-pencil">Invite</span></a
-                  >
                   </td>
                 </tr>
               </tbody>
               {% endfor %}
             </table>
           </div>
-
+<!-- 
           <div class="customers">
             <div class="card-header flex">
               <h3>Recents Submissions</h3>
@@ -201,9 +204,9 @@
               {% endfor %}
             </table>
           </div>
-        </div>
+        </div>              
       </main>
-    </div>
+    </div> -->
 
     <script>
       let sideBar = document.getElementById("sidebar");
