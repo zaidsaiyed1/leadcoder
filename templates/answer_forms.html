@@ -10,7 +10,7 @@
               </div>
     <form method = "post" enctype="multipart/form-data">
         {% csrf_token %}
-        <h2>Question: {{question}}</h2>
+        <h2>Question: {{question|safe}}</h2>
         {{ form.as_p }}
         <button type="submit">Upload</button>
     </form>

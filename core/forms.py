@@ -1,6 +1,7 @@
 from django import forms
 from .models import *
-
+from ckeditor_uploader.widgets import CKEditorUploadingWidget
+from ckeditor_uploader.fields import RichTextUploadingFormField
 from django.forms import inlineformset_factory
 class Postf(forms.ModelForm):
 
@@ -14,9 +15,12 @@ class Categoryf(forms.ModelForm):
                 fields = ['name']
 
 class Questionf(forms.ModelForm):
+        question = forms.CharField(widget=CKEditorUploadingWidget())
         class Meta:
+                # question=RichTextUploadingField(config_name='default')
                 model = Question
-                fields = ['category','quiz','question','marks']
+                fields = ['category','quiz','question','levelofq','marks']
+               
         
 
 class Answerf(forms.ModelForm):

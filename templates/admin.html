@@ -5,10 +5,18 @@
     <title>Quiz Management Dashboard - LEADCODER</title>
 
     <!-- iconscout cdn path -->
-    <link
-      rel="stylesheet"
-      href="https://unicons.iconscout.com/release/v4.0.0/css/line.css"
-    />
+    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+   <style>
+    p {
+  text-align:right;
+  font-size: 30px;
+  color: red;
+  /* margin-top: 0px; */
+}
+   </style>
     <!-- CSS File Link -->
     <link rel="stylesheet" href="/static/css/admin_style.css" />
   </head>
@@ -69,15 +77,11 @@
           <i class="uil uil-bars" id="menu-icon"></i>
           Dashboard
         </h2>
-        {% if quizUploadData %}
-        <button disabled>Quiz Upload get limit!</button>
-        {% else %}
-        <button><a href="/quizUpload/" class="link"> Add Quiz</a></button>
-        {% endif %}
-        <button>
-          <a href="/questionUpload/" class="link"> Add Question's</a>
-        </button>
+       
         <div class="admin-box flex">
+          <h4>Your Plan will be Expire On:</h4>&nbsp;&nbsp;
+          <p id="demo"></p>
+        &nbsp;&nbsp;&nbsp;  
           <img src="/static/img/lc/logo-white.png" width="30px" height="30px" />
           <div>
             <h4>{{request.user.first_name}}</h4>
@@ -121,8 +125,31 @@
           <div class="projects">
             <div class="card-header flex">
               <h3>Recents Quiz's</h3>
+              {% if quizUploadData %}
+              {% if quizUploadData %}
+              <button disabled>Quiz Upload get limit!</button>
+              {% else %}
+              <button><a href="/quizUpload/" class="link"> Add Quiz</a></button>
+              {% endif %}
+        {% elif quizUploadData5 %}
+                  {% if quizUploadData5 %}
+                  <button disabled>
+                    <a href="" class="btn btn-primary">You Got the question limit!</a><i class="link"></i>
+                  </button>
+                  {% else %}
+                  <button><a href="/quizUpload/" class="link"> Add Quiz</a></button>
+                  {% endif %}
+        {% else %}
+                  {% if quizUploadDataUni %}
+                  <button disabled>
+                    <a href="" class="btn btn-primary">You Got the Quiz limit!</a><i class="link"></i>
+                  </button>
+                  {% else %}
+                  <button><a href="/quizUpload/" class="link"> Add Quiz</a></button>
+                  {% endif %}
+                {% endif %}
               <button>
-                <a href="/userpageforadmin/"> See all > </a><i class="link"></i>
+                <a href="/allQuizPageForQuizManage/"> See all > </a><i class="link"></i>
               </button>
             </div>
 
@@ -144,15 +171,19 @@
                   <td>{{quiz.category}}</td>
                   <td>{{quiz.created_at}}</td>
                   <td>
-                    <a href="/quizEdit/{{quiz.pk}}"
-                      ><span class="glyphicon glyphicon-pencil">Edit</span></a
-                    >
-                    <a href="/conformQuizForDelete/{{quiz.pk}}"
-                      ><span class="glyphicon glyphicon-pencil">Delete</span></a
-                    >
-                    <a href="/quizInvitePageForAdmin/{{quiz.pk}}"
-                    ><span class="glyphicon glyphicon-pencil">Invite</span></a
-                  >
+                    <div class="dropdown show">
+                         <a class="btn btn-primary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                          Action
+                         </a>
+
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                        <li><a href="/quizEdit/{{quiz.pk}}/">Edit</a></li>
+                        <li><a href="/conformQuizForDelete/{{quiz.pk}}/">Delete</a></li>
+                        <li><a href="/quizInvitePageForAdmin/{{quiz.pk}}/">Add Invite!</a></li>
+                        <li><a href="/quizQuestionPageForAdmin/{{quiz.pk}}">Add Question!</a></li>
+                      </ul>
+                    </div>
+                  </div>
                   </td>
                 </tr>
               </tbody>
@@ -214,6 +245,35 @@
         sideBar.classList.toggle("toggleMenu");
         mainContent.classList.toggle("toggleContent");
       };
+    //  Timmer for plan expires
+    var countDownDate = new Date("{{ dataorder.end_date|date:'Y-m-d H:i:s' }}").getTime();
+
+// Update the count down every 1 second
+var x = setInterval(function() {
+
+  // Get today's date and time
+  var now = new Date().getTime();
+    
+  // Find the distance between now and the count down date
+  var distance = countDownDate - now;
+    
+  // Time calculations for days, hours, minutes and seconds
+  var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+  var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+  var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+  var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+    
+  // Output the result in an element with id="demo"
+  document.getElementById("demo").innerHTML = days + "d " + hours + "h "
+  + minutes + "m " + seconds + "s ";
+    
+  // If the count down is over, write some text 
+  if (distance < 0) {
+    clearInterval(x);
+      window.location.href ="{% url 'login' %}"
+  }
+}, 1000);
+            
     </script>
   </body>
 </html>

@@ -2,13 +2,10 @@
 <html lang="en">
 <head>
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <title>Quiz Management All-Quiz - LEADCODER</title>
+   <title>Quiz Management All-Questions - LEADCODER</title>
 
    <!-- iconscout cdn path -->
    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
-   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
    <!-- CSS File Link -->
    <link rel="stylesheet" href="/static/css/admin_style.css">
             </head>
@@ -62,7 +59,7 @@
       <header class="flex">
          <h2>
             <i class="uil uil-bars" id="menu-icon"></i>
-            All Quiz
+            All Questions
          </h2>
         <div class="admin-box flex" >
             <img src="/static/img/logo7.jpg" width="30px" height="30px">
@@ -78,29 +75,37 @@
          <div class="wrapper flex">
             <div class="projects">
                <div class="card-header flex">
-                  <h3>Recents Quiz's</h3>
-                  {% if quizUploadData %}
-              {% if quizUploadData %}
-              <button disabled>Quiz Upload get limit!</button>
-              {% else %}
-              <button><a href="/quizUpload/" class="link"> Add Quiz</a></button>
-              {% endif %}
-        {% elif quizUploadData5 %}
-                  {% if quizUploadData5 %}
+                  <h3>All Questions of Quiz-{{quizData.title}}</h3>
+                  {% if quizQuestionDataFor20 %}
+                  {% if quizQuestionDataFor20 %}
+                <button disabled>
+                  <a href="" class="btn btn-primary">You Got the Question Limit!</a><i class="link"></i>
+                </button>
+                  {% else %}
+                <button>
+                  <a href="/questionUpload/{{quizData.pk}}/" class="btn btn-primary">Create New Question!</a><i class="link"></i>
+                </button>
+                 {% endif %}
+                {% elif quizQuestionDataFor40 %}
+                  {% if quizQuestionDataFor40 %}
                   <button disabled>
                     <a href="" class="btn btn-primary">You Got the question limit!</a><i class="link"></i>
                   </button>
-                  {% else %}
-                  <button><a href="/quizUpload/" class="link"> Add Quiz</a></button>
-                  {% endif %}
-        {% else %}
-                  {% if quizUploadDataUni %}
-                  <button disabled>
-                    <a href="" class="btn btn-primary">You Got the Quiz limit!</a><i class="link"></i>
+                    {% else %}
+                  <button>
+                    <a href="/questionUpload/{{quizData.pk}}/" class="btn btn-primary">Create New Invite!</a><i class="link"></i>
                   </button>
-                  {% else %}
-                  <button><a href="/quizUpload/" class="link"> Add Quiz</a></button>
-                  {% endif %}
+                   {% endif %}
+                {% else %}
+                  {% if quizQuestionDataForUnlim %}
+                  <button disabled>
+                    <a href="" class="btn btn-primary">You Got the Question limit!</a><i class="link"></i>
+                  </button>
+                    {% else %}
+                  <button>
+                    <a href="/questionUpload/{{quizData.pk}}/" class="btn btn-primary">Create New Question!</a><i class="link"></i>
+                  </button>
+                   {% endif %}
                 {% endif %}
                   </div>
 
@@ -108,35 +113,26 @@
                   <thead>
                      <th>
                         <tr>
-                           <td>Name</td>
+                           <td>Question Name</td>
                            <td>Category</td>
-                           <td>Created at</td>
+                           <td>level of Question</td>
+                           <td>Marks</td>
                            <td>Action</td>
                         </tr>
                      </th>
                   </thead>
 
                   <tbody>
-                     {% for quiz in quiz %}
+                     {% for quizQuestionDisplay in quizQuestionDisplay %}
                      <tr>
-                        <td>{{quiz.title}}</td>
-                        <td>{{quiz.category}}</td>
-                        <td>{{quiz.created_at}}</td>
+                        <td>{{quizQuestionDisplay.question|safe}}</td>
+                        <td>{{quizQuestionDisplay.category}}</td>
+                        <td>{{quizQuestionDisplay.levelofq}}</td>
+                        <td>{{quizQuestionDisplay.marks}}</td>
                         <td>
-                           <div class="dropdown show">
-                              <a class="btn btn-primary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                               Action
-                              </a>
-     
-                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                             <li><a href="/quizEdit/{{quiz.pk}}/">Edit</a></li>
-                             <li><a href="/conformQuizForDelete/{{quiz.pk}}/">Delete</a></li>
-                             <li><a href="/quizInvitePageForAdmin/{{quiz.pk}}/">Add Invite!</a></li>
-                             <li><a href="/quizQuestionPageForAdmin/{{quiz.pk}}">Add Question!</a></li>
-                           </ul>
-                         </div>
-                       </div>
-                     </td>                        </td>
+                           <a href="/questionEdit/{{quizQuestionDisplay.pk}}/{{quizQuestionDisplay.quiz.quid}}/"><span class="glyphicon glyphicon-pencil" >Edit</span></a>
+                           <a href="/conformQuestionForDelete/{{quizQuestionDisplay.pk}}"><span class="glyphicon glyphicon-pencil">Delete</span></a>
+                        </td>
                      </tr>
                    
                   </tbody>

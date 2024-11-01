@@ -16,8 +16,8 @@ urlpatterns = [
    path('postEdit/<int:pk>/',views.postEdit,name='postEdit'),
    path('conformPost/<int:pk>/',views.conformPostForDelete,name='conformPost'),
    path('postDelete/<int:pk>/',views.postDelete,name='postDelete'),
-   path('questionUpload/',views.questionUpload,name='questionUpload'),
-   path('questionEdit/<int:pk>/',views.questionEdit,name='questionEdit'),
+   path('questionUpload/<int:pk>/',views.questionUpload,name='questionUpload'),
+   path('questionEdit/<int:pk>/<int:quid>/',views.questionEdit,name='questionEdit'),
    path('conformQuestionForDelete/<int:pk>/',views.comformQuestionForDelete,name='conformQuestionForDelete'),
    path('deleteQuestion/<int:pk>/',views.deleteQuestion,name='deleteQuestion'),
    path('answerUpload/<int:pk>/',views.answerUpload,name='answerUpload'),
@@ -57,6 +57,7 @@ urlpatterns = [
    path('conformQuizInviteForDelete/<int:pk>/',views.conformQuizInviteForDelete,name='conformQuizInviteForDelete'),
    path('quizInviteDelete/<int:pk>/',views.quizInviteDelete,name='quizInviteDelete'),
    path('paymentSuccess/',views.paymentSuccess,name="paymentSuccess"),
+   path('quizQuestionPageForAdmin/<int:pk>/',views.quizQuestionsPageForAdmin,name='quizQuestionPageForAdmin')
 ] 
 
 

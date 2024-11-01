@@ -88,7 +88,8 @@ def conformPostForDelete(request,pk):
   }
   return render(request,'templates/conformPost.html',context)
 
-def questionUpload(request):
+def questionUpload(request,pk):
+    quizData = Quiz.objects.get(pk=pk)
     if request.method == 'POST':
       form = Questionf(request.POST,request.FILES)
       if form.is_valid():
@@ -98,11 +99,13 @@ def questionUpload(request):
       form = Questionf()
     
     context ={
-      'form':form
+      'form':form,
+      'quizData':quizData
     }
     return render(request,'templates/question_forms.html',context)
 
-def questionEdit(request,pk):
+def questionEdit(request,pk,quid):
+  quizData = Quiz.objects.get(quid = quid)
   dataget = Question.objects.get(pk=pk)
   form = Questionf(instance=dataget)
   if request.method == 'POST':
@@ -112,7 +115,9 @@ def questionEdit(request,pk):
       return redirect('success')
    
   context={
-      'form':form
+      'form':form,
+      'quizData':quizData
+
   }
   return render(request,'templates/question_forms.html',context)
 
@@ -293,7 +298,8 @@ def conformQuizForDelete(request,pk):
 def quizDelete(request,pk):
   data = Quiz .objects.get(pk=pk)
   data.delete()
-  return redirect('success')
+  messages.success(request,'Quiz Deleted Successfully!')
+  return redirect('controlPanelForQuizManage')
   
 
 def singlepost(request,pk):
@@ -423,6 +429,8 @@ def quizResult(request,quid):
 def controlPanelForQuizManage(request):
   user = request.user
   quizUploadData = False
+  quizUploadData5 = False
+  quizUploadDataUni = False
   
   userorder = request.user.is_order
   if userorder == True:
@@ -434,10 +442,15 @@ def controlPanelForQuizManage(request):
         quizCount = Quiz.objects.filter(user=user).count()
         if quizCount == 2:
            quizUploadData = True
-    # elif dataorder.plans==medium:
-    #   return
-    # elif dataorder.plans==advance:
-    #   return
+
+    elif dataorder.plans==medium:
+       quizCount = Quiz.objects.filter(user=user).count()
+       if quizCount == 5:
+           quizUploadData5 = True
+    elif dataorder.plans==advance:
+       quizCount = Quiz.objects.filter(user=user).count()
+       quizUploadDataUni = True
+      
        
   else:
     return redirect('success')     
@@ -448,7 +461,10 @@ def controlPanelForQuizManage(request):
   # quizSubmited = QuizSubmit.objects.filter(quiz=quizp).all()
   context = {
      'quiz':quizp,
+     'dataorder':dataorder,
      'quizUploadData':quizUploadData,
+     'quizUploadData5':quizUploadData5,
+     'quizUploadDataUni':quizUploadDataUni
      
     # 'question':questionp,
     # 'quizSubmited':quizSubmited,
@@ -456,9 +472,39 @@ def controlPanelForQuizManage(request):
   return render(request,'templates/admin.html',context)
 
 def allQuizPageForQuizManage(request):
-  quiz = Quiz.objects.all()
+  userdata = request.user
+  quizUploadData = False
+  quizUploadData5 = False
+  quizUploadDataUni = False
+  
+  userorder = request.user.is_order
+  if userorder == True:
+    dataorder = Order.objects.get(user=userdata)
+    basic = Plans.objects.get(name='Basic')
+    medium = Plans.objects.get(name='Medium')
+    advance = Plans.objects.get(name='Advance')
+    if dataorder.plans==basic:
+        quizCount = Quiz.objects.filter(user=userdata).count()
+        if quizCount == 2:
+           quizUploadData = True
+
+    elif dataorder.plans==medium:
+       quizCount = Quiz.objects.filter(user=userdata).count()
+       if quizCount == 5:
+           quizUploadData5 = True
+    elif dataorder.plans==advance:
+       quizCount = Quiz.objects.filter(user=userdata).count()
+       quizUploadDataUni = True
+      
+ 
+
+  quiz = Quiz.objects.filter(user=userdata).order_by('-updated_at').all()
   context = {
-    'quiz':quiz
+    'quiz':quiz,
+    'quizUploadData':quizUploadData,
+     'quizUploadData5':quizUploadData5,
+     'quizUploadDataUni':quizUploadDataUni,
+     
   }
   return render(request,'templates/allQuizPageForQuizManage.html',context)
 
@@ -494,6 +540,39 @@ def quizInvitePageForAdmin(request,pk):
     'quizInviteDataForUnlim':quizInviteDataForUnlim,
   }
   return render(request,'templates/quizInvitePageForAdmin.html',context)
+
+def quizQuestionsPageForAdmin(request,pk):
+  user = request.user
+  quizQuestionDataFor20 = False
+  quizQuestionDataFor40 = False
+  quizQuestionDataForUnlim = False 
+  dataorder = Order.objects.get(user=user)
+  basic = Plans.objects.get(name='Basic')
+  medium = Plans.objects.get(name='Medium')
+  advance = Plans.objects.get(name='Advance')
+  quizData = Quiz.objects.get(pk=pk)
+  quizQuestionDisplay = Question.objects.filter(quiz=quizData).all()
+  quizQuestionCount = Question.objects.filter(quiz=quizData).count()
+  if dataorder.plans == basic:
+     if quizQuestionCount == 20:
+       quizQuestionDataFor20 = True
+  elif dataorder.plans == medium:
+     if quizQuestionCount == 40:
+       quizQuestionDataFor40 = True
+  else:
+    quizQuestionDataForUnlim = True
+  
+       
+
+  context = {
+    'quizData':quizData,
+    'quizQuestionCount':quizQuestionCount,
+    'quizQuestionDisplay':quizQuestionDisplay,
+    'quizQuestionDataFor20':quizQuestionDataFor20,
+    'quizQuestionDataFor40':quizQuestionDataFor40,
+    'quizQUestionDataForUnlim':quizQuestionDataForUnlim,
+  }
+  return render(request,'templates/quizQuestionPageForQuizManage.html',context)
 
 def QuizSubmissionPageForQuizManage(request):
   quizp = Quiz.objects.get(quid=4)
