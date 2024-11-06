@@ -48,8 +48,6 @@ s
 
 ### Plans Page For Quiz Admin
 
-![InvitedquizPage](https://github.com/user-attachments/assets/83930f1a-5538-4216-ac7d-4ae6f32c5ebd)
-
-
+![plansPage](https://github.com/user-attachments/assets/d1fb9432-5ae8-492c-ad57-98edb8028fd3)
 
 
