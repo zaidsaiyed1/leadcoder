@@ -5,10 +5,10 @@ quizzes and educational resources. Created during an internship, it is designed 
 Tailored for educational institutions and startups, LEADCODER offers an affordable and effective solution for coding training and skill development.
 
 ## Feature
-s
+
 **Quiz Management:** Users can access a comprehensive library of quizzes focused on various coding concepts.
 
-?**Educational Resources:** Provides students with extensive learning resources to reinforce understanding.
+**Educational Resources:** Provides students with extensive learning resources to reinforce understanding.
 
 **Future Competitive Programming:** Upcoming features will introduce competitive programming elements to foster skill development through coding challenges.
 
