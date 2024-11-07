@@ -3,12 +3,11 @@
 <head>
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
    <title>Quiz Management All-Questions - LEADCODER</title>
-
    <!-- iconscout cdn path -->
    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
    <!-- CSS File Link -->
-   <link rel="stylesheet" href="/static/css/admin_style.css">
-            </head>
+          <link rel="stylesheet" href="/static/css/admin_style.css">
+   </head>
           
 <body>
    {% csrf_token %}
@@ -79,31 +78,31 @@
                   {% if quizQuestionDataFor20 %}
                   {% if quizQuestionDataFor20 %}
                 <button disabled>
-                  <a href="" class="btn btn-primary">You Got the Question Limit!</a><i class="link"></i>
+                  <a href="" class="btn btn-secondary">You Got the Question Limit!</a><i class="link"></i>
                 </button>
                   {% else %}
                 <button>
-                  <a href="/questionUpload/{{quizData.pk}}/" class="btn btn-primary">Create New Question!</a><i class="link"></i>
+                  <a href="/questionUpload/{{quizData.pk}}/" class="btn btn-secondary">Create New Question!</a><i class="link"></i>
                 </button>
                  {% endif %}
                 {% elif quizQuestionDataFor40 %}
                   {% if quizQuestionDataFor40 %}
                   <button disabled>
-                    <a href="" class="btn btn-primary">You Got the question limit!</a><i class="link"></i>
-                  </button>
+                    <a href="" class="btn btn-secondary">You Got the question limit!</a><i class="link"></i>
+                  </button>   
                     {% else %}
                   <button>
-                    <a href="/questionUpload/{{quizData.pk}}/" class="btn btn-primary">Create New Invite!</a><i class="link"></i>
+                    <a href="/questionUpload/{{quizData.pk}}/" class="btn btn-secondary">Create New Invite!</a><i class="link"></i>
                   </button>
                    {% endif %}
                 {% else %}
                   {% if quizQuestionDataForUnlim %}
                   <button disabled>
-                    <a href="" class="btn btn-primary">You Got the Question limit!</a><i class="link"></i>
+                    <a href="" class="btn btn-secondary">You Got the Question limit!</a><i class="link"></i>
                   </button>
                     {% else %}
                   <button>
-                    <a href="/questionUpload/{{quizData.pk}}/" class="btn btn-primary">Create New Question!</a><i class="link"></i>
+                    <a href="/questionUpload/{{quizData.pk}}/" class="btn btn-secondary">Create New Question!</a><i class="link"></i>
                   </button>
                    {% endif %}
                 {% endif %}
@@ -132,6 +131,8 @@
                         <td>
                            <a href="/questionEdit/{{quizQuestionDisplay.pk}}/{{quizQuestionDisplay.quiz.quid}}/"><span class="glyphicon glyphicon-pencil" >Edit</span></a>
                            <a href="/conformQuestionForDelete/{{quizQuestionDisplay.pk}}"><span class="glyphicon glyphicon-pencil">Delete</span></a>
+                           <a href="/answerUpload/{{quizQuestionDisplay.pk}}/"><span class="glyphicon glyphicon-pencil">Add Answers</span></a>
+
                         </td>
                      </tr>
                    

@@ -3,15 +3,125 @@
 <head>
     <meta charset="UTF-8">
     <title>Quiz Upload</title>
+    <style>
+        /* Basic reset */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            font-family: Arial, sans-serif;
+            background-color: #f0f2f5;
+        }
+
+        .upload-form-container {
+            background-color: #fff;
+            padding: 20px;
+            width: 100%;
+            max-width: 500px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+        }
+
+        h2 {
+            color: #333;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #555;
+        }
+
+        input[type="text"],
+        input[type="number"],
+        textarea,
+        select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        textarea {
+            resize: vertical;
+            height: 80px;
+        }
+
+        .time-fields {
+            display: flex;
+            gap: 10px;
+            justify-content: space-between;
+        }
+
+        .time-fields input {
+            width: 20%;
+        }
+
+        .submit-btn {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            font-size: 18px;
+            color: #fff;
+            background-color: #4CAF50;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .submit-btn:hover {
+            background-color: #45a049;
+        }
+    </style>
 </head>
 <body>
-              <div>
-                            <h2>Quiz</h2>
-              </div>
-    <form method = "post" enctype="multipart/form-data">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Upload</button>
-    </form>
+    <div class="upload-form-container">
+        <h2>Quiz Upload Form</h2>
+        <form method = "post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <!-- Quiz Title Field -->
+            <label for="quizTitle">Quiz Title</label>
+             {{form.title}}
+            <!-- Category Field -->
+            <label for="category">Category</label>
+          
+                {{form.category}}    
+            <!-- User Field -->
+            <label for="user">User</label>
+            <!-- <input type="text" id="user" name="user" value="{{userofquiz.email}}" required> -->
+             <select name="user" required id="id_user">
+                 <option value="">---------</option>
+                <option value="{{userofquiz.pk}}">{{userofquiz.email}}</option>
+            </select>
+            <!-- Company Field -->
+            <label for="company">Company</label>
+                      {{form.company}}
+            <!-- End Time Field -->
+            <label>End Time</label>
+            <div class="time-fields">
+                
+                <!-- <input type="number" name="hour" placeholder="Minutes" value="{{form.end_time.value}}" required> -->
+                {{form.end_time}}
+                
+                <!-- Submit Button -->
+                <input type="submit" value="Submit" class="submit-btn">
+                <!-- <button type="submit" class="submit-btn">Upload</button> -->
+                <!-- <button type="submit" class="submit-btn">Submit</button> -->
+        </form>
+        </div>
+    
 </body>
 </html>

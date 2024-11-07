@@ -261,30 +261,36 @@ def answerForProblemDelete(request,pk):
 
 
 def quizUpload(request):
+  userofquiz = request.user
   if request.method == 'POST':
     form =Quizf(request.POST,request.FILES)
     if form.is_valid():
      form.save();
-     return redirect('success')
+     messages.success(request,'Quiz Has been Uploaded!')
+     return redirect('controlPanelForQuizManager')
   else:
     form = Quizf()
   
   context = {
-    'form':form
+    'form':form,
+    'userofquiz':userofquiz,
   }
   return render(request,'templates/quiz_forms.html',context)
 
 def quizEdit(request,pk):
+  userofquiz = request.user
   dataget = Quiz.objects.get(pk=pk)
   form = Quizf(instance=dataget)
   if request.method == 'POST':
     form = Quizf(request.POST,request.FILES,instance=dataget)
     if form.is_valid():
       form.save();
-      return redirect('success')
+      messages.success(request,'Quiz Has been Edited!')
+      return redirect('controlPanelForQuizManage')
   
   context = {
-    'form':form
+    'form':form,
+    'userofquiz':userofquiz,
   }
   return render(request,'templates/quiz_forms.html',context)
 
