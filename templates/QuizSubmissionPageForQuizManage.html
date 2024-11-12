@@ -31,14 +31,7 @@
                <i class="uil uil-clipboard-notes"></i>
               <a href="/allQuizPageForQuizManage/"><span>All Quiz</span></a>
             </li>
-            <li>
-               <i class="uil uil-chart-bar"></i>
-               <a href="/QuizSubmissionPageForQuizManage/"><span>Quiz Submissions</span></a>
-            </li>
-            <li>
-               <i class="uil uil-calendar-alt"></i>
-               <a href="/QuizResultPageForQuizManage/"><span>Result</span></a>
-            </li>
+          
             <!-- <li>
                <i class="uil uil-shopping-bag"></i>
                <a href=""><span>Orders</span></a>
@@ -82,7 +75,8 @@
                   <thead>
                      <th>
                         <tr>
-                           <td>Name</td>
+                           <td>User</td>
+                           <td>Quiz Name</td>
                            <td>Score</td>
                            <td>Submited at</td>
                            <td>Action</td>
@@ -93,12 +87,12 @@
                   <tbody>
                      {% for quizSubmited in quizSubmited %}  
                      <tr>
+                        <td>{{quizSubmited.user}}</td>
                         <td>{{quizSubmited.quiz}}</td>
                         <td>{{quizSubmited.score}}</td>
                         <td>{{quizSubmited.submited_at}}</td>
                        <td>
-                        <a href="/editProduct/{{ product.Product_id }}"><span class="glyphicon glyphicon-pencil" >Edit</span></a>
-                       <a href="/destroy/{{ product.Product_id }}"><span class="glyphicon glyphicon-pencil" onclick="popup()" >Delete</span></a>  
+                       <a href="/conformQuizSubmissionForDelete/{{quizSubmited.qsid}}/"><span class="glyphicon glyphicon-pencil" onclick="popup()" >Delete</span></a>  
                       
                        </td>
                        

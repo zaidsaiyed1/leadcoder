@@ -45,8 +45,7 @@ urlpatterns = [
    path('quizResult/<int:quid>/',views.quizResult,name='quizResult'),
    path('controlPanelForQuizManage/',views.controlPanelForQuizManage,name='controlPanelForQuizManage'),
    path('allQuizPageForQuizManage/',views.allQuizPageForQuizManage,name='allQuizPageForQuizManage'),
-   path('QuizSubmissionPageForQuizManage/',views.QuizSubmissionPageForQuizManage,name='QuizSubmissionPageForPageQuizManage'),
-   path('QuizResultPageForQuizManage/',views.QuizResultPageForQuizManage,name='QuizResultPageForQuizManage'),
+   path('QuizSubmissionPageForQuizManage/<int:quid>/',views.QuizSubmissionPageForQuizManage,name='QuizSubmissionPageForPageQuizManage'),
    path('quizInvitePageForAdmin/<int:pk>/',views.quizInvitePageForAdmin,name="quizInvitePageForAdmin"),
    path('selectLanguage/',views.selectLanguage,name='selectLanguage'),
    path('code/',views.code_Editor,name='code'),
@@ -57,7 +56,9 @@ urlpatterns = [
    path('conformQuizInviteForDelete/<int:pk>/',views.conformQuizInviteForDelete,name='conformQuizInviteForDelete'),
    path('quizInviteDelete/<int:pk>/',views.quizInviteDelete,name='quizInviteDelete'),
    path('paymentSuccess/',views.paymentSuccess,name="paymentSuccess"),
-   path('quizQuestionPageForAdmin/<int:pk>/',views.quizQuestionsPageForAdmin,name='quizQuestionPageForAdmin')
+   path('quizQuestionPageForAdmin/<int:pk>/',views.quizQuestionsPageForAdmin,name='quizQuestionPageForAdmin'),
+   path('conformQuizSubmissionForDelete/<int:qsid>/',views.conformQuizSubmissionForDelete,name="conformQuizSubmissionForDelete"),
+   path('quizSubmissionDelete/<int:qsid>/',views.quizSubmissionDelete,name="quizSubmissionDelete"),
 ] 
 
 

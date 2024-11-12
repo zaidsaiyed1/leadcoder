@@ -94,7 +94,8 @@ def questionUpload(request,pk):
       form = Questionf(request.POST,request.FILES)
       if form.is_valid():
         form.save();
-        return redirect('success')
+        messages.success(request,"Question Has been Uploaded!")
+        return redirect('controlPanelForQuizManage')
     else:
       form = Questionf()
     
@@ -112,8 +113,8 @@ def questionEdit(request,pk,quid):
     form = Questionf(request.POST,request.FILES,instance=dataget)
     if form.is_valid():
       form.save()
-      return redirect('success')
-   
+      messages.success(request,"Question Has been Uploaded!")
+      return redirect('controlPanelForQuizManage')
   context={
       'form':form,
       'quizData':quizData
@@ -124,7 +125,8 @@ def questionEdit(request,pk,quid):
 def deleteQuestion(request,pk):
   data = Question.objects.get(pk=pk)
   data.delete()
-  return redirect('success')
+  messages.success(request,"Question Has been Deleted!")
+  return redirect('controlPanelForQuizManage')
 
 def comformQuestionForDelete(request,pk):
   data = Question.objects.get(pk=pk)
@@ -267,7 +269,7 @@ def quizUpload(request):
     if form.is_valid():
      form.save();
      messages.success(request,'Quiz Has been Uploaded!')
-     return redirect('controlPanelForQuizManager')
+     return redirect('controlPanelForQuizManage')
   else:
     form = Quizf()
   
@@ -456,8 +458,7 @@ def controlPanelForQuizManage(request):
     elif dataorder.plans==advance:
        quizCount = Quiz.objects.filter(user=user).count()
        quizUploadDataUni = True
-      
-       
+     
   else:
     return redirect('success')     
 
@@ -467,6 +468,7 @@ def controlPanelForQuizManage(request):
   # quizSubmited = QuizSubmit.objects.filter(quiz=quizp).all()
   context = {
      'quiz':quizp,
+     'quizCount':quizCount,
      'dataorder':dataorder,
      'quizUploadData':quizUploadData,
      'quizUploadData5':quizUploadData5,
@@ -580,20 +582,27 @@ def quizQuestionsPageForAdmin(request,pk):
   }
   return render(request,'templates/quizQuestionPageForQuizManage.html',context)
 
-def QuizSubmissionPageForQuizManage(request):
-  quizp = Quiz.objects.get(quid=4)
+def QuizSubmissionPageForQuizManage(request,quid):
+  quizp = Quiz.objects.get(quid=quid)
   quizSubmited = QuizSubmit.objects.filter(quiz=quizp).all()
   context= {
      'quizSubmited':quizSubmited,
   }
   return render(request,'templates/QuizSubmissionPageForQuizManage.html',context)
-
-def QuizResultPageForQuizManage(request):
-  context = {
-
+def conformQuizSubmissionForDelete(request,qsid):
+  quizsubmitdata = QuizSubmit.objects.get(qsid=qsid)
+  context={
+   'quizsubmitdata':quizsubmitdata,
   }
-  return render(request,'templates/QuizResultPageForQuizManage.html',context)
+  return render(request,'templates/conformQuizSubmissionForDelete.html',context)
 
+
+def quizSubmissionDelete(request,qsid):
+  data = QuizSubmit.objects.get(qsid=qsid)
+  data.delete()
+  messages.success(request,"Quiz Submission Deleted!")
+  return redirect('controlPanelForQuizManage')
+  
 def success(request):
   return HttpResponse('Upload SuccessFully')
 
@@ -678,7 +687,9 @@ def quizinvite(request,pk):
     form =quizInvitef(request.POST,request.FILES)
     if form.is_valid():
      form.save();
-     return redirect('success')
+     messages.success(request,"Quiz Invite Has Been Sent!")
+     return redirect('controlPanelForQuizManage')
+     
   
   else:
     form = quizInvitef()
@@ -697,7 +708,8 @@ def editquizinvite(request,pk,quid):
     form = quizInvitef(request.POST,request.FILES,instance=dataget)
     if form.is_valid():
       form.save();
-      return redirect('success')
+      messages.success(request,"Quiz Invite has been Edited!")
+      return redirect('controlPanelForQuizManage')
   
   context = {
     'form':form,

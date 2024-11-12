@@ -42,16 +42,7 @@
             <i class="uil uil-clipboard-notes"></i>
             <a href="/allQuizPageForQuizManage/"><span>All Quiz</span></a>
           </li>
-          <li>
-            <i class="uil uil-chart-bar"></i>
-            <a href="/QuizSubmissionPageForQuizManage/"
-              ><span>Quiz Submissions</span></a
-            >
-          </li>
-          <li>
-            <i class="uil uil-calendar-alt"></i>
-            <a href="/QuizResultPageForQuizManage/"><span>Result</span></a>
-          </li>
+         
           <!-- <li>
                <i class="uil uil-shopping-bag"></i>
                <a href=""><span>Orders</span></a>
@@ -100,24 +91,18 @@
         <div class="cards">
           <div class="single-card">
             <div>
-              <span>Membership Amount-(MONTHLY)</span>
-              <h2>₹- 40,000</h2>
+              <span>Members Details</span>
+              <h2>Plan: {{dataorder.plans}}</h2>
+              
             </div>
             <i class="uil uil-calender"></i>
           </div>
           <div class="single-card">
             <div>
               <span>Total Quiz Register</span>
-              <h2>{{userTotal}}</h2>
+              <h2>{{quizCount}}</h2>
             </div>
             <i class="uil uil-dollar-sign-alt"></i>
-          </div>
-          <div class="single-card">
-            <div>
-              <span>Total Submissions Register</span>
-              <h2>{{productTotal}}</h2>
-            </div>
-            <i class="uil uil-chart-bar"></i>
           </div>
         </div>
 
@@ -180,55 +165,14 @@
                         <li><a href="/quizEdit/{{quiz.pk}}/">Edit</a></li>
                         <li><a href="/conformQuizForDelete/{{quiz.pk}}/">Delete</a></li>
                         <li><a href="/quizInvitePageForAdmin/{{quiz.pk}}/">Add Invite!</a></li>
-                        <li><a href="/quizQuestionPageForAdmin/{{quiz.pk}}">Add Question!</a></li>
+                        <li><a href="/quizQuestionPageForAdmin/{{quiz.pk}}/">Add Question!</a></li>
+                        <li><a href="/QuizSubmissionPageForQuizManage/{{quiz.quid}}/">Quiz Submissions!</a></li>
                       </ul>
                     </div>
                   </div>
                   </td>
                 </tr>
               </tbody>
-              {% endfor %}
-            </table>
-          </div>
-
-          <div class="customers">
-            <div class="card-header flex">
-              <h3>Recents Submissions</h3>
-              <button>
-                <a href="/productsPageForAdmin/">See all</a><i class="link"></i>
-              </button>
-            </div>
-
-            <table>
-              <thead>
-                <th>
-                  <tr>
-                    <td>Name</td>
-                    <td>Score</td>
-                    <td>Submited_at</td>
-                    <td>Action</td>
-                  </tr>
-                </th>
-              </thead>
-              <tr class="flex">
-                {% for quizSubmited in quizSubmited %}
-              </tr>
-
-              <tr>
-                <td>{{quizSubmited.quiz}}</td>
-                <td>{{quizSubmited.score}}</td>
-                <td>{{quizSubmited.submited_at}}</td>
-                <td>
-                  <a href="/editProduct/{{ product.Product_id }}"
-                    ><span class="glyphicon glyphicon-pencil">Edit</span></a
-                  >
-                  <a href="/destroy/{{ product.Product_id }}"
-                    ><span class="glyphicon glyphicon-pencil" onclick="popup()"
-                      >Delete</span
-                    ></a
-                  >
-                </td>
-              </tr>
               {% endfor %}
             </table>
           </div>
