@@ -91,6 +91,17 @@ class AnswerForProblem(models.Model):
        def __str__(self):
               return self.answerforp
 
+class ProblemSubmit(models.Model):
+       prosid = models.BigAutoField(primary_key=True)
+       problem = models.ForeignKey(Problem,on_delete= models.CASCADE)
+       code =  RichTextUploadingField()
+       code_input = models.CharField(max_length=100,null=False)
+       code_output = models.CharField(max_length=100,null=False)
+       user = models.ForeignKey(CustomUser,on_delete=models.CASCADE)
+       submited_at = models.DateTimeField(auto_now_add=True)
+       def __str__(self):
+              return self.user.email
+       
 class QuizSubmit(models.Model):
        qsid = models.BigAutoField(primary_key=True)
        quiz = models.ForeignKey(Quiz,on_delete= models.CASCADE)

@@ -1,3 +1,4 @@
+import sys
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, render,redirect
 from django.contrib.auth.decorators import login_required
@@ -738,6 +739,54 @@ def deletequizinvite(request,pk):
   }
   return render(request,'templates/quizInviteForm.html',context)
 
+def allProblemStatement(request):
+  submitdata = False
+  userdata= request.user
+  problemdata = Problem.objects.all()
+  problemsubmitdata = ProblemSubmit.objects.filter(user=userdata)
+  if problemsubmitdata.exists():
+    submitdata = True
+
+  context = {
+      'problemdata':problemdata,
+      'submitdata':submitdata,
+  }
+  return render(request,'templates/all_problem.html',context)
+def problemSolvingEditior(request,proid):
+  problemdata =Problem.objects.get(proid=proid)
+  context={
+    'problemdata':problemdata,
+  }
+  return render(request,'templates/problem_Statement_Editor.html',context)
+
+def codeRun(request,proid):
+   problemdata  = Problem.objects.get(proid=proid)
+   userdata = request.user
+   if request.method == 'POST':
+        code_part = request.POST['code_area']
+        input_part = request.POST['input_area']
+        y = input_part
+        input_part = input_part.replace("\n"," ").split(" ")
+        def input():
+            a = input_part[0]
+            del input_part[0]
+            return a
+        try:
+            orig_stdout = sys.stdout
+            sys.stdout = open('file.txt', 'w')
+            exec(code_part)
+            sys.stdout.close()
+            sys.stdout=orig_stdout
+            output = open('file.txt', 'r').read()
+        except Exception as e:
+            sys.stdout.close()
+            sys.stdout=orig_stdout
+            output = e
+        codedata = ProblemSubmit(problem=problemdata,code=code_part,code_input=y,code_output = output,user=userdata)
+        codedata.save();
+        print(output)
+   res = render(request,'templates/problem_Statement_Editor.html',{"code":code_part,"input":y,"output":output,"problemdata":problemdata})
+   return res
 
 def paymentSuccess(request):
   context = {}

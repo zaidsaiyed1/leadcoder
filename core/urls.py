@@ -59,6 +59,9 @@ urlpatterns = [
    path('quizQuestionPageForAdmin/<int:pk>/',views.quizQuestionsPageForAdmin,name='quizQuestionPageForAdmin'),
    path('conformQuizSubmissionForDelete/<int:qsid>/',views.conformQuizSubmissionForDelete,name="conformQuizSubmissionForDelete"),
    path('quizSubmissionDelete/<int:qsid>/',views.quizSubmissionDelete,name="quizSubmissionDelete"),
+   path('problemSolvingEditior/<int:proid>/',views.problemSolvingEditior,name="problemSolvingEditior"),
+   path('codeRun/<int:proid>/',views.codeRun,name="codeRun"),
+   path('allProblemStatement',views.allProblemStatement,name='allProblemStatement')
 ] 
 
 
