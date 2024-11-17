@@ -1,4 +1,7 @@
 echo "Buid start"
-python3.11 -m pip install -r requirements.txt
+#!/ env bash
+pip install -r requirements.txt
 python3.11 manage.py collectstatic --noinput --clear
+python manage.py migrate
+
 echo "Buid stop"
