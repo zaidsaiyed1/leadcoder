@@ -393,7 +393,7 @@ def displayInstructionPageForQuiz(request,pk):
           'quizTaken':quizTaken,
           'quizIn':quizIn,
       }
-  return render(request,'templates/instructionPage.html',context)
+  return render(request,'templates/instructionpage.html',context)
 
 def displayQuiz(request,pk):
       quizd = get_object_or_404(Quiz, pk=pk)
