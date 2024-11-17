@@ -19,7 +19,8 @@ def index(request):
  ps = Problem.objects.last()
  quiz = Quiz.objects.all()
  post = Post.objects.all().order_by('-created_at')[:3]
- return render(request,'templates/index.html',{'ps':ps,'quiz':quiz,'post':post})
+ context={'ps':ps,'quiz':quiz,'post':post})
+ return render(request,'templates/index.html',context)
 
 def about(request):
   context = {
