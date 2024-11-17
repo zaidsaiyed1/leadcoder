@@ -27,6 +27,53 @@
   <link href="/static/css/style.css" rel="stylesheet" />
   <!-- responsive style -->
   <link href="/static/css/responsive.css" rel="stylesheet" />
+  <style>
+    .blog-post {
+  position: relative;
+  margin-bottom: 30px;
+}
+
+.blog-thumb {
+  overflow: hidden;
+  position: relative;
+}
+
+.blog-thumb img {
+  width: 400px;
+  height: 300px;
+}
+
+.blog-content {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background-color: rgba(0,0,0,0.7);
+  color: #fff;
+  padding: 15px;
+}
+
+.content-show a {
+  font-family: 'Open Sans', sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  color: #fff;
+  text-transform: uppercase;
+}
+
+.content-show span {
+  color: #f78e21;
+}
+
+.content-hide {
+  margin-top: 15px;
+  display: none;
+}
+
+.content-hide p {
+  color: #fff;
+}
+  </style>
 </head>
 
 <body class="sub_page">
@@ -52,6 +99,9 @@
                   <a class="nav-link" href="{% url 'docs' %}">Documentation</a>
                 </li>
                 <li class="nav-item">
+                  <a class="nav-link" href="{% url 'allProblemStatement' %}">Problem</a>
+                </li>
+                <li class="nav-item">
                   <a class="nav-link" href="{% url 'displayAllQuiz' %}">Quiz's</a>
                 </li>
                 <li class="nav-item">
@@ -65,16 +115,14 @@
               <div class="dropdown">
                 <button class="dropbtn">welcome {{request.user.first_name}}</button>
                 <div class="dropdown-content">
+                  <a href="/profile/{{request.user.email}}/">Profile</a>
                   <a href="{% url 'logout' %}">Logout</a>
-                  <a href="#">Profile</a>
                 </div>
               </div>
-                 
               {% else %}
               <div class="col-md-5">
                 <div class="search-box">
-                        <button class="btn register"><a href="{% url 'register' %}">Register</a></button>
-                        <button class="btn login"><a href="{% url 'login' %}">Login</a></button>  
+                  <button class="btn login"><a href="{% url 'login' %}">Login/</a><a href="{% url 'register' %}">Signup</a></button>  
                 </div>
               </div>
               {% endif %}
@@ -87,95 +135,75 @@
   </div>
 
   <!-- do section -->
-
-  <section class="do_section layout_padding">
+  <section class="work_section layout_padding">
     <div class="container">
       <div class="heading_container">
         <h2>
-          What we do
+         Our Documentation.
         </h2>
         <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
-          magna
         </p>
       </div>
-      <div class="do_container">
-        <div class="box arrow-start arrow_bg">
-          <div class="img-box">
-            <img src="images/d-1.png" alt="">
-          </div>
-          <div class="detail-box">
-            <h6>
-              Marketing
-            </h6>
-          </div>
+      
+      <div id="latest-blog">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="heading-section">
+                        <h2>Latest Articles</h2>
+                        <img src="images/under-heading.png" alt="" >
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                {% for post in post %}
+                <div class="col-md-4 col-sm-6">
+                    <div class="blog-post">
+                        <div class="blog-thumb">
+                            {% if post.image %}
+                            <img src="{{post.image.url}}" alt=""  />
+                            {% endif %}
+                        </div>
+                        <div class="blog-content">
+                            <div class="content-show">
+                                <h4><a href="/singlepost/{{post.pk}}">{{post.title}}</a></h4>
+                                <span>{{post.created_at}}</span>
+                            </div>
+                            <div class="content-hide">
+                                <p></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+              
         </div>
-        <div class="box arrow-middle arrow_bg">
-          <div class="img-box">
-            <img src="images/d-2.png" alt="">
-          </div>
-          <div class="detail-box">
-            <h6>
-              Development
-            </h6>
-          </div>
-        </div>
-        <div class="box arrow-middle arrow_bg">
-          <div class="img-box">
-            <img src="images/d-3.png" alt="">
-          </div>
-          <div class="detail-box">
-            <h6>
-              Html5
-            </h6>
-          </div>
-        </div>
-        <div class="box arrow-end arrow_bg">
-          <div class="img-box">
-            <img src="images/d-4.png" alt="">
-          </div>
-          <div class="detail-box">
-            <h6>
-              Css
-            </h6>
-          </div>
-        </div>
-        <div class="box ">
-          <div class="img-box">
-            <img src="images/d-5.png" alt="">
-          </div>
-          <div class="detail-box">
-            <h6>
-              Wordpress
-            </h6>
-          </div>
-        </div>
-      </div>
     </div>
+
   </section>
 
   <!-- end do section -->
 
-  <!-- info section -->
-  <section class="info_section ">
+  <!-- info section -->  
+   <section class="info_section ">
     <div class="container">
       <div class="row">
         <div class="col-md-3">
           <div class="info_contact">
             <h5>
-              About Shop
+              About LeadCoder
             </h5>
             <div>
               <div class="img-box">
-                <img src="images/location-white.png" width="18px" alt="">
+                <img src="/static/img/location-white.png" width="18px" alt="">
               </div>
               <p>
-                Address
+                XYZ India
               </p>
             </div>
             <div>
               <div class="img-box">
-                <img src="images/telephone-white.png" width="12px" alt="">
+                <img src="/static/img/telephone-white.png" width="12px" alt="">
               </div>
               <p>
                 +01 1234567890
@@ -183,10 +211,10 @@
             </div>
             <div>
               <div class="img-box">
-                <img src="images/envelope-white.png" width="18px" alt="">
+                <img src="/static/img/envelope-white.png" width="18px" alt="">
               </div>
               <p>
-                demo@gmail.com
+                connect.leadcoder@gmail.com
               </p>
             </div>
           </div>
@@ -197,57 +225,12 @@
               Informations
             </h5>
             <p>
-              ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
+              LEADCODER is a coding skill enhancement system developed to support students 
+              and beginners in coding through structured quizzes and educational resources. 
             </p>
           </div>
         </div>
 
-        <div class="col-md-3">
-          <div class="info_insta">
-            <h5>
-              Instagram
-            </h5>
-            <div class="insta_container">
-              <div>
-                <a href="">
-                  <div class="insta-box b-1">
-                    <img src="images/insta.png" alt="">
-                  </div>
-                </a>
-                <a href="">
-                  <div class="insta-box b-2">
-                    <img src="images/insta.png" alt="">
-                  </div>
-                </a>
-              </div>
-
-              <div>
-                <a href="">
-                  <div class="insta-box b-3">
-                    <img src="images/insta.png" alt="">
-                  </div>
-                </a>
-                <a href="">
-                  <div class="insta-box b-4">
-                    <img src="images/insta.png" alt="">
-                  </div>
-                </a>
-              </div>
-              <div>
-                <a href="">
-                  <div class="insta-box b-3">
-                    <img src="images/insta.png" alt="">
-                  </div>
-                </a>
-                <a href="">
-                  <div class="insta-box b-4">
-                    <img src="images/insta.png" alt="">
-                  </div>
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
         <div class="col-md-3">
           <div class="info_form ">
             <h5>
@@ -261,16 +244,13 @@
             </form>
             <div class="social_box">
               <a href="">
-                <img src="images/fb.png" alt="">
+                <img src="/static/img/twitter.png" alt="">
               </a>
               <a href="">
-                <img src="images/twitter.png" alt="">
+                <img src="/static/img/linkedin.png" alt="">
               </a>
               <a href="">
-                <img src="images/linkedin.png" alt="">
-              </a>
-              <a href="">
-                <img src="images/youtube.png" alt="">
+                <img src="/static/img/youtube.png" alt="">
               </a>
             </div>
           </div>
@@ -285,14 +265,13 @@
   <!-- footer section -->
   <section class="container-fluid footer_section">
     <p>
-      &copy; 2020 All Rights Reserved By
-      <a href="https://html.design/">Free Html Templates</a>
+      &copy; <span id="currentYear"></span> All Rights Reserved By LEADCODER.
     </p>
   </section>
   <!-- footer section -->
 
-  <script type="text/javascript" src="js/jquery-3.4.1.min.js"></script>
-  <script type="text/javascript" src="js/bootstrap.js"></script>
+  <script type="text/javascript" src="/static/js/jquery-3.4.1.min.js"></script>
+  <script type="text/javascript" src="/static/js/bootstrap.js"></script>
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js">
   </script>
   <!-- owl carousel script 

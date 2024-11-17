@@ -12,7 +12,7 @@
   <meta name="description" content="" />
   <meta name="author" content="" />
 
-  <title>Esigned</title>
+  <title>LEADCODER-Contact us</title>
 
   <!-- slider stylesheet -->
   <!-- slider stylesheet -->
@@ -54,6 +54,9 @@
                   <a class="nav-link" href="{% url 'docs' %}">Documentation</a>
                 </li>
                 <li class="nav-item">
+                  <a class="nav-link" href="{% url 'allProblemStatement' %}">Problem</a>
+                </li>
+                <li class="nav-item">
                   <a class="nav-link" href="{% url 'displayAllQuiz' %}">Quiz's</a>
                 </li>
                 <li class="nav-item">
@@ -67,16 +70,15 @@
               <div class="dropdown">
                 <button class="dropbtn">welcome {{request.user.first_name}}</button>
                 <div class="dropdown-content">
+                  <a href="/profile/{{request.user.email}}/">Profile</a>
                   <a href="{% url 'logout' %}">Logout</a>
-                  <a href="#">Profile</a>
                 </div>
               </div>
-                 
               {% else %}
               <div class="col-md-5">
                 <div class="search-box">
-                        <button class="btn register"><a href="{% url 'register' %}">Register</a></button>
-                        <button class="btn login"><a href="{% url 'login' %}">Login</a></button>  
+                  <button class="btn login"><a href="{% url 'login' %}">Login/</a><a href="{% url 'register' %}">Signup</a></button>  
+                               
                 </div>
               </div>
               {% endif %}
@@ -102,13 +104,14 @@
         <h2>
           Request A Call Back
         </h2>
+        <h3>You want an our Quiz Management Access then fill the below contact us form </h3>
       </div>
       <div class="">
         <div class="">
           <div class="row">
             <div class="col-md-9 mx-auto">
               <div class="contact-form">
-                <form method="post" action="/contactUsRequest/">
+                <form method="post" action="../contactHandle/">
                   {% csrf_token %}
                   <div>
                     <input type="text" name="name" placeholder="Full Name ">
@@ -117,7 +120,7 @@
                     <input type="text"name="number" placeholder="Phone Number">
                   </div>
                   <div>
-                    <input type="email" name="email" placeholder="Email Address">
+                    <input type="email" name="email" placeholder="example@companyname.in">
                   </div>
                   <div>
                     <input type="text" name="message" placeholder="Message" class="input_message">
@@ -150,19 +153,19 @@
         <div class="col-md-3">
           <div class="info_contact">
             <h5>
-              About Shop
+              About LeadCoder
             </h5>
             <div>
               <div class="img-box">
-                <img src="images/location-white.png" width="18px" alt="">
+                <img src="/static/img/location-white.png" width="18px" alt="">
               </div>
               <p>
-                Address
+                XYZ India
               </p>
             </div>
             <div>
               <div class="img-box">
-                <img src="images/telephone-white.png" width="12px" alt="">
+                <img src="/static/img/telephone-white.png" width="12px" alt="">
               </div>
               <p>
                 +01 1234567890
@@ -170,10 +173,10 @@
             </div>
             <div>
               <div class="img-box">
-                <img src="images/envelope-white.png" width="18px" alt="">
+                <img src="/static/img/envelope-white.png" width="18px" alt="">
               </div>
               <p>
-                demo@gmail.com
+                connect.leadcoder@gmail.com
               </p>
             </div>
           </div>
@@ -184,57 +187,12 @@
               Informations
             </h5>
             <p>
-              ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
+              LEADCODER is a coding skill enhancement system developed to support students 
+              and beginners in coding through structured quizzes and educational resources. 
             </p>
           </div>
         </div>
 
-        <div class="col-md-3">
-          <div class="info_insta">
-            <h5>
-              Instagram
-            </h5>
-            <div class="insta_container">
-              <div>
-                <a href="">
-                  <div class="insta-box b-1">
-                    <img src="images/insta.png" alt="">
-                  </div>
-                </a>
-                <a href="">
-                  <div class="insta-box b-2">
-                    <img src="images/insta.png" alt="">
-                  </div>
-                </a>
-              </div>
-
-              <div>
-                <a href="">
-                  <div class="insta-box b-3">
-                    <img src="images/insta.png" alt="">
-                  </div>
-                </a>
-                <a href="">
-                  <div class="insta-box b-4">
-                    <img src="images/insta.png" alt="">
-                  </div>
-                </a>
-              </div>
-              <div>
-                <a href="">
-                  <div class="insta-box b-3">
-                    <img src="images/insta.png" alt="">
-                  </div>
-                </a>
-                <a href="">
-                  <div class="insta-box b-4">
-                    <img src="images/insta.png" alt="">
-                  </div>
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
         <div class="col-md-3">
           <div class="info_form ">
             <h5>
@@ -248,16 +206,13 @@
             </form>
             <div class="social_box">
               <a href="">
-                <img src="images/fb.png" alt="">
+                <img src="/static/img/twitter.png" alt="">
               </a>
               <a href="">
-                <img src="images/twitter.png" alt="">
+                <img src="/static/img/linkedin.png" alt="">
               </a>
               <a href="">
-                <img src="images/linkedin.png" alt="">
-              </a>
-              <a href="">
-                <img src="images/youtube.png" alt="">
+                <img src="/static/img/youtube.png" alt="">
               </a>
             </div>
           </div>
@@ -265,21 +220,15 @@
       </div>
     </div>
   </section>
-
-  <!-- end info_section -->
-
-
-  <!-- footer section -->
   <section class="container-fluid footer_section">
     <p>
-      &copy; 2020 All Rights Reserved By
-      <a href="https://html.design/">Free Html Templates</a>
+      &copy; <span id="currentYear"></span> All Rights Reserved By LEADCODER.
     </p>
   </section>
   <!-- footer section -->
 
-  <script type="text/javascript" src="js/jquery-3.4.1.min.js"></script>
-  <script type="text/javascript" src="js/bootstrap.js"></script>
+  <script type="text/javascript" src="/static/js/jquery-3.4.1.min.js"></script>
+  <script type="text/javascript" src="/static/js/bootstrap.js"></script>
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js">
   </script>
   <!-- owl carousel script 

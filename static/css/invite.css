@@ -59,7 +59,7 @@ label>span{
   margin-top: 12px;
   padding-right: 10px;
 }
-input[type="text"], input[type="tel"], input[type="email"], select
+input[type="text"], input[type="number"], input[type="email"], select
 {
   width: 70%;
   height: 30px;

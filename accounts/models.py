@@ -6,6 +6,7 @@ from .managers import CustomUserManager
 class CustomUser(AbstractUser):
    username = None
    email = models.EmailField(_('email address'),unique=True)
+   number = models.IntegerField(blank=True)
    is_student = models.BooleanField(default=True)
    is_quizManager = models.BooleanField(default=False)
    is_docsManager = models.BooleanField(default=False)

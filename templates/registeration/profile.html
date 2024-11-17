@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="/static/css/profile.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+  <!-- slider stylesheet -->
+  <!-- slider stylesheet -->
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" />
+
+  <!-- bootstrap core css -->
+  <link rel="stylesheet" type="text/css" href="/static/css/bootstrap.css" />
+
+  <!-- fonts style -->
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700|Poppins:400,700&display=swap" rel="stylesheet">
+  <!-- Custom styles for this template -->
+  <link href="/static/css/style.css" rel="stylesheet" />
+  <!-- responsive style -->
+  <link href="/static/css/responsive.css" rel="stylesheet" />
+    <title>Profile - {{userdata.email}}</title>
+   <style>
+  
+.edit-profile-button {
+    background-color: #333;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+   
+   
+}
+.edit-profile-button{
+text-decoration: none;
+  }
+.delete-profile-button {
+    background-color: #333;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+   
+   
+}
+.delete-profile-button{
+text-decoration: none;
+  }
+
+   </style>
+</head>
+<body class="sub_page">
+    <div class="hero_area">
+        <!-- header section strats -->
+        <header class="header_section">
+          <div class="container-fluid">
+            <nav class="navbar navbar-expand-lg custom_nav-container pt-3">
+              <a class="navbar-brand" href="{% url 'index' %}">
+                <!--<i class="navbar-brand-icon bi-book me-2"></i>-->
+                <img src="/static/img/lc/logo-no-background.png" height="50" width="200">
+                <!-- <span>LEADCODER</span><br> -->
+                
+            </a>
+    
+              <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+              </button>
+    
+              <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <div class="d-flex ml-auto flex-column flex-lg-row align-items-center">
+                  <ul class="navbar-nav">
+                    <li class="nav-item active">
+                      <a class="nav-link" href="{% url 'index' %}">Home <span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" href="{% url 'docs' %}">Documentation</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" href="{% url 'allProblemStatement' %}">Problem</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" href="{% url 'displayAllQuiz' %}">Quiz's</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" href="{% url 'about' %}"> About Us </a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" href="{% url 'contact' %}">Contact Us</a>
+                    </li>
+                  </ul>
+                  {% if user.is_authenticated %}
+                  <div class="dropdown">
+                    <button class="dropbtn">welcome {{request.user.first_name}}</button>
+                    <div class="dropdown-content">
+                      <a href="/profile/{{request.user.email}}/">Profile</a>
+                      <a href="{% url 'logout' %}">Logout</a>
+                    </div>
+                  </div>
+                  {% else %}
+                  <div class="col-md-5">
+                    <div class="search-box">
+                            <button class="btn login"><a href="{% url 'login' %}">Login</a></button>  
+                            <button class="btn register"><a href="{% url 'register' %}">Register</a></button>
+                    </div>
+                  </div>
+                  {% endif %}
+                </div>
+              </div>
+            </nav>
+          </div>
+        </header>
+    </div>
+    <header id="header2">
+        <h2>My Profile</h2>
+        </header>
+    <main>
+        <section class="profile-info">
+            <h2>About Me</h2>
+            <p>Name:&nbsp;{{userdata.first_name}}&nbsp;{{userdata.last_name}}</p>
+            <p>Email: &nbsp;{{userdata.email}}</p>
+            {% if userdata.is_student %}
+            <p class="subtitle">Student ✅</p>
+            {% elif userdata.is_quizManager %}
+            <p class="subtitle">Quiz Manager ✅</p>
+            {% endif %}
+        </section>
+        <section class="contact">
+            <h2>Contact</h2>
+            <ul>
+           <li>Phone: {{userdata.number}}</a></li>
+            </ul>
+            {% if userdata.is_student %}
+            <h2>Quiz Invited</h2>
+            <h3>Go to Quiz Invited Page to see the quizzes!</h3>
+           <a href="{% url 'displayAllInvitedQuiz' %}"> Click Here!</a>
+           {% elif userdata.is_quizManager %}
+           <h3>Go to Quiz Control Panal!</h3>
+           <a href="{% url 'controlPanelForQuizManage' %}"> Click Here!</a>
+            {% endif %}
+        </section>
+        <a href="/editProfile/{{userdata.email}}/" class="edit-profile-button">Edit Profile</a>
+        &nbsp;
+        <a href="/conformUserDelete/{{userdata.email}}" class="delete-profile-button">Delete Profile</a>
+        &nbsp;
+        <a href="{% url 'logout' %}" class="delete-profile-button">Logout</a>
+        
+        
+    </main>
+</body>
+</html>

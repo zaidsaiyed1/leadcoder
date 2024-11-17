@@ -65,8 +65,8 @@
                                       <div class="dropdown">
                                         <button class="dropbtn">welcome {{request.user.first_name}}</button>
                                         <div class="dropdown-content">
+                                          <a href="/profile/{{request.user.email}}/">Profile</a>
                                           <a href="{% url 'logout' %}">Logout</a>
-                                          <a href="#">Profile<</a>
                                         </div>
                                       </div>
                                          

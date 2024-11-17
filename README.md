@@ -10,7 +10,7 @@ Tailored for educational institutions and startups, LEADCODER offers an affordab
 
 **Educational Resources:** Provides students with extensive learning resources to reinforce understanding.
 
-**Future Competitive Programming:** Upcoming features will introduce competitive programming elements to foster skill development through coding challenges.
+**Competitive Programming:** Upcoming features will introduce competitive programming elements to foster skill development through coding challenges.
 
 ## Technologies Used
 

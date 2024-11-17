@@ -5,8 +5,79 @@
               <meta name="viewport" content="width=device-width, initial-scale=1.0">
               <title>Single Article</title>
               <link rel="stylesheet" href="/static/css/single-post.css">
+              
+  <!-- slider stylesheet -->
+  <!-- slider stylesheet -->
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" />
+
+  <!-- bootstrap core css -->
+  <link rel="stylesheet" type="text/css" href="/static/css/bootstrap.css" />
+
+  <!-- fonts style -->
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700|Poppins:400,700&display=swap" rel="stylesheet">
+  <!-- Custom styles for this template -->
+  <link href="/static/css/style.css" rel="stylesheet" />
+  <!-- responsive style -->
+  <link href="/static/css/responsive.css" rel="stylesheet" />
 </head>
-<body>
+<body  class="sub_page">
+  <div class="hero_area">
+    <!-- header section strats -->
+    <header class="header_section">
+      <div class="container-fluid">
+        <nav class="navbar navbar-expand-lg custom_nav-container pt-3">
+          <a class="navbar-brand" href="{% url 'index' %}">
+            <img src="/static/img/lc/logo-no-background.png" height="50" width="200">
+          </a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <div class="d-flex ml-auto flex-column flex-lg-row align-items-center">
+              <ul class="navbar-nav">
+                <li class="nav-item active">
+                  <a class="nav-link" href="{% url 'index' %}">Home <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="{% url 'docs' %}">Documentation</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="{% url 'allProblemStatement' %}">Problem</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="{% url 'displayAllQuiz' %}">Quiz's</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="{% url 'about' %}"> AboutUs </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="{% url 'contact' %}">ContactUs</a>
+                </li>
+              </ul>
+              {% if user.is_authenticated %}
+              <div class="dropdown">
+                <button class="dropbtn">welcome {{request.user.first_name}}</button>
+                <div class="dropdown-content">
+                  <a href="/profile/{{request.user.email}}/">Profile</a>
+                  <a href="{% url 'logout' %}">Logout</a>
+                </div>
+              </div>
+              {% else %}
+              <div class="col-md-5">
+                <div class="search-box">
+                  <button class="btn login"><a href="{% url 'login' %}">Login/</a><a href="{% url 'register' %}">Signup</a></button>  
+                </div>
+              </div>
+              {% endif %}
+            </div>
+          </div>
+        </nav>
+      </div>
+    </header>
+    <!-- end header section -->
+  </div>
+
               <article class="ad5-padding-y-lg">
                             <header class="ad5-container ad5-max-width-xs ad5-margin-bottom-lg">
                               <div class="ad5-text-component ad5-text-center ad5-line-height-lg ad5-text-gap-md ad5-margin-bottom-md">

@@ -1,3 +1,18 @@
+/* Universal fix for box-sizing and overflow */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html, body {
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden; /* Prevent horizontal scrolling */
+}
+
+/* Responsive design fixes */
+
 @media (max-width: 1120px) {
     .hero_area {
         height: auto;
@@ -6,7 +21,6 @@
     .slider_section {
         padding: 50px 0;
     }
-
 }
 
 @media (max-width: 992px) {
@@ -29,7 +43,6 @@
 }
 
 @media (max-width: 768px) {
-
     .info_section .col-md-3 {
         text-align: center;
     }
@@ -79,7 +92,9 @@
     }
 }
 
-@media (max-width: 480px) {}
+@media (max-width: 480px) {
+    /* Add any necessary adjustments here for ultra-small screens */
+}
 
 @media (max-width: 420px) {
     .slider_section .detail-box h2 {
@@ -91,10 +106,21 @@
     }
 }
 
-@media (max-width: 360px) {}
+@media (max-width: 360px) {
+    /* Add adjustments for smaller devices if necessary */
+}
 
 @media (min-width: 1200px) {
     .container {
         max-width: 1170px;
+        margin: 0 auto; /* Center align container */
     }
 }
+
+/* Fixes for specific sections */
+.slider_section, 
+.info_section {
+    width: 100%;
+    overflow: hidden; /* Prevent child elements from overflowing */
+}
+
