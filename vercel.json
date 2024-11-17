@@ -9,5 +9,13 @@
                       "src": "/(.*)",
                       "dest": "leadcoder/wsgi.py"
                   }
-              ]
+              ],
+          
+
+          
+
+            "rewrites": [
+              { "source": "/", "destination": "/api/index" }
+            ]
+
           }
