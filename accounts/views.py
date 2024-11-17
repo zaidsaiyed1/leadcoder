@@ -6,9 +6,6 @@ from .forms import *
 from core.models import *
 from django.http import HttpResponse
 # Create your views here.
-def testing(request):
-              return HttpResponse('Sucessfully Temp')
-
 def register(request):
   form = UserRegisterationForm()
   if request.method == 'POST':
@@ -24,6 +21,35 @@ def register(request):
     'form':form
   }
   return render(request,'templates/registeration/register.html',context)
+
+def editdata(request,email):
+  userdata = CustomUser.objects.get(email=email)
+  form = UserRegisterationForm(instance=userdata)
+  if request.method == 'POST':
+    form = UserRegisterationForm(request.POST,request.FILES,instance=userdata)
+    if form.is_valid():
+      form.save()
+      messages.success(request,"Data Has been Updated!")
+      return redirect('index')
+  
+  context ={
+    'form':form,
+    'userdata':userdata,
+  }
+  return render(request,'templates/registeration/editprofile.html',context)
+
+def deleteUser(request,email):
+  data = CustomUser.objects.get(email=email)
+  data.delete()
+  messages.success(request,"User Has been Deleted!")
+  return redirect('index')
+
+def comformUserDelete(request,email):
+  data = CustomUser.objects.get(email=email)
+  context = {
+    'data':data
+  }
+  return render(request,'templates/registeration/conformUser.html',context)
 
 def registerForManager(request):
   form = UserRegisterationFormForManager()
@@ -50,6 +76,9 @@ def loginhandle(request):
         if loginuser.is_quizManager == True and loginuser.is_docsManager == False:
            if loginuser.is_order==False:
              login(request,loginuser)
+             data = CustomUser.objects.get(email=lusername)
+             data.is_student = False
+             data.save()
              messages.success(request,'Logged In Successfully ' + lusername)
              return redirect('plansForQuiz')
            elif loginuser.is_order==True:
@@ -82,6 +111,12 @@ def loginhandle(request):
   }
    return render(request,'templates/registeration/login.html',context)
 
+def profileData(request,email):
+   userdata = CustomUser.objects.get(email=email)
+   context = {
+      'userdata':userdata
+   }
+   return render(request,'templates/registeration/profile.html',context)
 def logouthandle(request):
    logout(request)
    messages.success(request,'Logout Sucessfully')

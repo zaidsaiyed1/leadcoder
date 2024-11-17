@@ -4,9 +4,9 @@
 <head>
   <!-- Basic -->
   <meta charset="utf-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta http-equiv="X-UA-Compatible"/>
   <!-- Mobile Metas -->
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <!-- Site Metas -->
   <meta name="keywords" content="" />
   <meta name="description" content="" />
@@ -27,7 +27,8 @@
   <link href="/static/css/style.css" rel="stylesheet" />
   <!-- responsive style -->
   <link href="/static/css/responsive.css" rel="stylesheet" />
-  <style>
+
+<style>
 .blog-post {
   position: relative;
   margin-bottom: 30px;
@@ -96,7 +97,6 @@
             <!--<i class="navbar-brand-icon bi-book me-2"></i>-->
             <img src="/static/img/lc/logo-no-background.png" height="50" width="200">
             <!-- <span>LEADCODER</span><br> -->
-            
         </a>
 
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -113,6 +113,9 @@
                   <a class="nav-link" href="{% url 'docs' %}">Documentation</a>
                 </li>
                 <li class="nav-item">
+                  <a class="nav-link" href="{% url 'allProblemStatement' %}">Problem</a>
+                </li>
+                <li class="nav-item">
                   <a class="nav-link" href="{% url 'displayAllQuiz' %}">Quiz's</a>
                 </li>
                 <li class="nav-item">
@@ -126,15 +129,15 @@
               <div class="dropdown">
                 <button class="dropbtn">welcome {{request.user.first_name}}</button>
                 <div class="dropdown-content">
+                  <a href="/profile/{{request.user.email}}/">Profile</a>
                   <a href="{% url 'logout' %}">Logout</a>
-                  <a href="#">Profile</a>
                 </div>
               </div>
               {% else %}
               <div class="col-md-5">
                 <div class="search-box">
-                        <button class="btn register"><a href="{% url 'register' %}">Register</a></button>
-                        <button class="btn login"><a href="{% url 'login' %}">Login</a></button>  
+                        <button class="btn login"><a href="{% url 'login' %}">Login/</a><a href="{% url 'register' %}">Signup</a></button>  
+                        
                 </div>
               </div>
               {% endif %}
@@ -177,7 +180,7 @@
                         Code Smarter, Challenge Harder.
                       </p>
                       <div class="">
-                        <a href="">
+                        <a href="{% url 'about' %}">
                          Read More..
                         </a>
                       </div>
@@ -203,7 +206,7 @@
                         This is only for organization.
                       </p>
                       <div class="">
-                        <a href="">
+                        <a href="{% url 'contact' %}">
                           Contact us
                         </a>
                       </div>
@@ -227,7 +230,7 @@
                         On our platform you got Challenge to make your programming bar above the line.
                       </p>
                       <div class="">
-                        <a href="">
+                        <a href="{% url 'allProblemStatement' %}">
                           Contact us
                         </a>
                       </div>
@@ -253,62 +256,15 @@
           What we do
         </h2>
         <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
-          magna
+          <b>Quiz Management:</b> Users can access a comprehensive library of quizzes focused on various coding concepts.
+<br>
+          <b>Educational Resources:</b> Provides students with extensive learning resources to reinforce understanding.
+<br>
+          <b>Competitive Programming:</b> Upcoming features will introduce competitive programming 
+          elements to foster<br> skill development through coding challenges.
         </p>
       </div>
-      <div class="do_container">
-        <div class="box arrow-start arrow_bg">
-          <div class="img-box">
-            <img src="/static/img/d-q-1.png" alt="">
-          </div>
-          <div class="detail-box">
-            <h6>
-              Quiz
-            </h6>
-          </div>
-        </div>
-        <div class="box arrow-middle arrow_bg">
-          <div class="img-box">
-            <img src="/static/img/d-2.png" alt="">
-          </div>
-          <div class="detail-box">
-            <h6>
-              Development
-            </h6>
-          </div>
-        </div>
-        <div class="box arrow-middle arrow_bg">
-          <div class="img-box">
-            <img src="/static/img/d-3.png" alt="">
-          </div>
-          <div class="detail-box">
-            <h6>
-              Html5
-            </h6>
-          </div>
-        </div>
-        <div class="box arrow-end arrow_bg">
-          <div class="img-box">
-            <img src="/static/img/d-4.png" alt="">
-          </div>
-          <div class="detail-box">
-            <h6>
-              Css
-            </h6>
-          </div>
-        </div>
-        <div class="box ">
-          <div class="img-box">
-            <img src="/static/img/d-5.png" alt="">
-          </div>
-          <div class="detail-box">
-            <h6>
-              Wordpress
-            </h6>
-          </div>
-        </div>
-      </div>
+     
     </div>
   </section>
 
@@ -332,13 +288,15 @@
               </h2>
             </div>
             <p>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-              dolore magna aliqua. Ut enim ad minim veniam, quis nostrudLorem ipsum dolor sit amet, consectetur
-              adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-              veniam, quis nostrud
+              LEADCODER is a coding skill enhancement system developed to support 
+              students and beginners in coding through structured quizzes and educational resources. 
+              Created during an internship, it is designed to provide an engaging platform for students. 
+              Tailored for educational institutions and startups, 
+              LEADCODER offers an affordable and effective solution for 
+              coding training and skill development.  
             </p>
             <div>
-              <a href="">
+              <a href="{% url 'about' %}">
                 Read More
               </a>
             </div>
@@ -410,7 +368,7 @@
         </h2>
       </div>
     
-      <div class="carousel-wrap ">
+      <div class="carousel-wrap">
         <div class="owl-carousel">
           {% for quiz in quiz %}
           <div class="item">
@@ -437,44 +395,7 @@
           </div>
           {% endfor %}
          
-          <!-- <div class="item">
-            <div class="box">
-              <div class="img-box">
-                <img src="/static/img/c-2.png" alt="">
-              </div>
-              <div class="detail-box">
-                <h5>
-                  Tempor incididunt <br>
-                  <span>
-                    Dipiscing elit
-                  </span>
-                </h5>
-                <img src="/static/img/quote.png" alt="">
-                <p>
-                  Dipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-                </p>
-              </div>
-            </div>
-          </div>
-          <div class="item">
-            <div class="box">
-              <div class="img-box">
-                <img src="/static/img/c-3.png" alt="">
-              </div>
-              <div class="detail-box">
-                <h5>
-                  Tempor incididunt <br>
-                  <span>
-                    Dipiscing elit
-                  </span>
-                </h5>
-                <img src="/static/img/quote.png" alt="">
-                <p>
-                  Dipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-                </p>
-              </div>
-            </div>
-          </div> -->
+      
         </div>
       </div>
      
@@ -491,7 +412,7 @@
         <div class="col-md-3 col-sm-6">
           <div class="detail-box">
             <h2>
-              1000+
+              10+
             </h2>
             <h5>
               Years of Business
@@ -501,7 +422,7 @@
         <div class="col-md-3 col-sm-6">
           <div class="detail-box">
             <h2>
-              20000+
+              200+
             </h2>
             <h5>
               Projects Delivered
@@ -511,7 +432,7 @@
         <div class="col-md-3 col-sm-6">
           <div class="detail-box">
             <h2>
-              10000+
+              100+
             </h2>
             <h5>
               Satisfied Customers
@@ -524,7 +445,7 @@
               1500+
             </h2>
             <h5>
-              Cups of Coffee
+              Employees
             </h5>
           </div>
         </div>
@@ -550,18 +471,19 @@
           <div class="row">
             <div class="col-md-9 mx-auto">
               <div class="contact-form">
-                <form action="">
+                <form action="../contactHandle/" method="post">
+                  {% csrf_token %}
                   <div>
-                    <input type="text" placeholder="Full Name ">
+                    <input type="text" name="name" placeholder="Full Name ">
                   </div>
                   <div>
-                    <input type="text" placeholder="Phone Number">
+                    <input type="text" name="number" placeholder="Phone Number">
                   </div>
                   <div>
-                    <input type="email" placeholder="Email Address">
+                    <input type="email" name="email" placeholder="Email Address">
                   </div>
                   <div>
-                    <input type="text" placeholder="Message" class="input_message">
+                    <input type="text" name="message" placeholder="Message" class="input_message">
                   </div>
                   <div class="d-flex justify-content-center">
                     <button type="submit" class="btn_on-hover">
@@ -574,9 +496,7 @@
           </div>
         </div>
       </div>
-      <div class="map_img-box">
-        <img src="/static/img/map-img.png" alt="">
-      </div>
+      
     </div>
   </section>
 
@@ -591,14 +511,14 @@
         <div class="col-md-3">
           <div class="info_contact">
             <h5>
-              About Shop
+              About LeadCoder
             </h5>
             <div>
               <div class="img-box">
                 <img src="/static/img/location-white.png" width="18px" alt="">
               </div>
               <p>
-                Address
+                XYZ India
               </p>
             </div>
             <div>
@@ -614,7 +534,7 @@
                 <img src="/static/img/envelope-white.png" width="18px" alt="">
               </div>
               <p>
-                demo@gmail.com
+                connect.leadcoder@gmail.com
               </p>
             </div>
           </div>
@@ -625,57 +545,12 @@
               Informations
             </h5>
             <p>
-              ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
+              LEADCODER is a coding skill enhancement system developed to support students 
+              and beginners in coding through structured quizzes and educational resources. 
             </p>
           </div>
         </div>
 
-        <div class="col-md-3">
-          <div class="info_insta">
-            <h5>
-              Instagram
-            </h5>
-            <div class="insta_container">
-              <div>
-                <a href="">
-                  <div class="insta-box b-1">
-                    <img src="/static/img/insta.png" alt="">
-                  </div>
-                </a>
-                <a href="">
-                  <div class="insta-box b-2">
-                    <img src="/static/img/insta.png" alt="">
-                  </div>
-                </a>
-              </div>
-
-              <div>
-                <a href="">
-                  <div class="insta-box b-3">
-                    <img src="/static/img/insta.png" alt="">
-                  </div>
-                </a>
-                <a href="">
-                  <div class="insta-box b-4">
-                    <img src="/static/img/insta.png" alt="">
-                  </div>
-                </a>
-              </div>
-              <div>
-                <a href="">
-                  <div class="insta-box b-3">
-                    <img src="/static/img/insta.png" alt="">
-                  </div>
-                </a>
-                <a href="">
-                  <div class="insta-box b-4">
-                    <img src="/static/img/insta.png" alt="">
-                  </div>
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
         <div class="col-md-3">
           <div class="info_form ">
             <h5>
@@ -688,9 +563,6 @@
               </button>
             </form>
             <div class="social_box">
-              <a href="">
-                <img src="/static/img/fb.png" alt="">
-              </a>
               <a href="">
                 <img src="/static/img/twitter.png" alt="">
               </a>
@@ -713,8 +585,7 @@
   <!-- footer section -->
   <section class="container-fluid footer_section">
     <p>
-      &copy; 2020 All Rights Reserved By
-      <a href="https://html.design/">Free Html Templates</a>
+      &copy; <span id="currentYear"></span> All Rights Reserved By LEADCODER.
     </p>
   </section>
   <!-- footer section -->
@@ -725,26 +596,25 @@
   </script>
   <!-- owl carousel script 
     -->
-  <script type="text/javascript">
-    $(".owl-carousel").owlCarousel({
-      loop: true,
-      margin: 0,
-      navText: [],
-      center: true,
-      autoplay: true,
-      autoplayHoverPause: true,
-      responsive: {
-        0: {
-          items: 1
-        },
-        1000: {
-          items: 3
+    <script type="text/javascript">
+      $(".owl-carousel").owlCarousel({
+        loop:true,
+        margin: 0,
+        navText: [],
+        center: true,
+        autoplay: true,
+        autoplayHoverPause: true,
+        responsive: {
+          0: {
+            items: 1
+          },
+          1000: {
+            items: 3
+          }
         }
-      }
-    });
-  </script>
+      });
+    </script>
   <!-- end owl carousel script -->
-
-</body>
+  </body>
 
 </html>

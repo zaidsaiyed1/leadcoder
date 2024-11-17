@@ -10,6 +10,7 @@ from django.db.models import F, DurationField, Sum, ExpressionWrapper
 from datetime import datetime, time, timedelta
 import razorpay
 from django.conf import settings
+
 from django.contrib.auth import get_user_model
 from django.contrib import messages
 from django.forms import inlineformset_factory
@@ -27,8 +28,9 @@ def about(request):
   return render(request,'templates/about.html',context)
 
 def documentation(request):
+  post = Post.objects.all()
   context = {
-
+'post':post,
   }
   return render(request,'templates/docs.html',context)
 
@@ -38,6 +40,16 @@ def contact_us(request):
   }
   return render(request,'templates/contact.html',context)
 
+def contactHandel(request):
+  if request.method=='POST':
+    namedata = request.POST['name']
+    numberdata = request.POST['number']
+    emaildata = request.POST['email']
+    msg = request.POST['message']
+    data = contactus(name=namedata,number=numberdata,email=emaildata,body=msg)
+    data.save()
+    messages.success(request,"Data Has Been Send Successfully!")
+    return redirect('index')
 def quizPlans(request):
   quizP=False
   user = request.user
@@ -50,7 +62,7 @@ def quizPlans(request):
              'quizP':quizP
              }
   return render(request,'templates/plans_for_quiz_manager.html',context)
-
+@login_required(login_url='/login/')
 def postUpload(request):
   if request.method =='POST':
      form = Postf(request.POST,request.FILES)
@@ -62,7 +74,7 @@ def postUpload(request):
    
   return render(request,'templates/post_forms.html',{'form':form})
 
-
+@login_required(login_url='/login/')
 def postEdit(request,pk):
   dataget = Post.objects.get(pk=pk)
   form = Postf(instance=dataget)
@@ -76,19 +88,20 @@ def postEdit(request,pk):
   }
   return render(request,'templates/post_forms.html',context)
   
-
+@login_required(login_url='/login/')
 def postDelete(request,pk):
   post = Post.objects.get(pk=pk)
   post.delete()
   return redirect('success')
 
+@login_required(login_url='/login/')
 def conformPostForDelete(request,pk):
   data = Post.objects.get(pk=pk)
   context ={
     'data':data
   }
   return render(request,'templates/conformPost.html',context)
-
+@login_required(login_url='/login/')
 def questionUpload(request,pk):
     quizData = Quiz.objects.get(pk=pk)
     if request.method == 'POST':
@@ -105,7 +118,7 @@ def questionUpload(request,pk):
       'quizData':quizData
     }
     return render(request,'templates/question_forms.html',context)
-
+@login_required(login_url='/login/')
 def questionEdit(request,pk,quid):
   quizData = Quiz.objects.get(quid = quid)
   dataget = Question.objects.get(pk=pk)
@@ -122,13 +135,14 @@ def questionEdit(request,pk,quid):
 
   }
   return render(request,'templates/question_forms.html',context)
-
+@login_required(login_url='/login/')
 def deleteQuestion(request,pk):
   data = Question.objects.get(pk=pk)
   data.delete()
   messages.success(request,"Question Has been Deleted!")
   return redirect('controlPanelForQuizManage')
 
+@login_required(login_url='/login/')
 def comformQuestionForDelete(request,pk):
   data = Question.objects.get(pk=pk)
   context = {
@@ -136,6 +150,7 @@ def comformQuestionForDelete(request,pk):
   }
   return render(request,'templates/conformQuestion.html',context)
 
+@login_required(login_url='/login/')
 def answerUpload(request,pk):
  answerformset = inlineformset_factory(Question,Answer,fields=('answers','is_correct'))
  question = Question.objects.get(pk=pk)
@@ -155,6 +170,7 @@ def answerUpload(request,pk):
   }
  return render(request,'templates/answer_forms.html',context)
 
+@login_required(login_url='/login/')
 def answerEdit(request,pk):
   dataget = Answer.objects.get(pk=pk)
   form = Answerf(instance=dataget)
@@ -169,7 +185,7 @@ def answerEdit(request,pk):
   }
   return render(request,'templates/answer_forms.html',context)
   
-
+@login_required(login_url='/login/')
 def conformAnswerForDelete(request,pk):
   data = Answer.objects.get(pk=pk)
   context = {
@@ -177,11 +193,13 @@ def conformAnswerForDelete(request,pk):
   }
   return render(request,'templates/conformAnswer.html',context)
 
+@login_required(login_url='/login/')
 def answerDelete(request,pk):
   data = Answer.objects.get(pk=pk)
   data.delete()
   return redirect('success')
 
+@login_required(login_url='/login/')
 def problemUpload(request):
   if request.method == 'POST':
     form = Problemf(request.POST,request.FILES)
@@ -196,6 +214,7 @@ def problemUpload(request):
   }
   return render(request,'templates/problem_forms.html',context)
 
+@login_required(login_url='/login/')
 def problemEdit(request,pk):
   dataget = Problem.objects.get(pk=pk)
   form = Problemf(instance=dataget)
@@ -210,6 +229,7 @@ def problemEdit(request,pk):
   }
   return render(request,'templates/problem_forms.html',context)
 
+@login_required(login_url='/login/')
 def conformProblemForDelete(request,pk):
     data = Problem.objects.get(pk=pk)
     context = {
@@ -217,11 +237,13 @@ def conformProblemForDelete(request,pk):
     }
     return render(request,'templates/conformProblem.html',context)
 
+@login_required(login_url='/login/')
 def problemDelete(request,pk):
   data = Problem.objects.get(pk=pk)
   data.delete()
   return redirect('success')
 
+@login_required(login_url='/login/')
 def answerForProblemUpload(request):
   if request.method == 'POST':
     form = AnswerForProblemf(request.POST,request.FILES)
@@ -236,6 +258,7 @@ def answerForProblemUpload(request):
   }
   return render(request,'templates/answer_for_problem_forms.html',context)
 
+@login_required(login_url='/login/')
 def answerForProblemEdit(request,pk):
   dataget = AnswerForProblem.objects.get(pk=pk)
   form = AnswerForProblemf(instance=dataget)
@@ -250,6 +273,7 @@ def answerForProblemEdit(request,pk):
   }
   return render(request,'templates/answer_for_problem_forms.html',context)
 
+@login_required(login_url='/login/')
 def conformAnswerForProblemForDelete(request,pk):
     data = AnswerForProblem.objects.get(pk=pk)
     context = {
@@ -257,12 +281,13 @@ def conformAnswerForProblemForDelete(request,pk):
     }
     return render(request,'templates/conformAnswerForProblem.html',context)
 
+@login_required(login_url='/login/')
 def answerForProblemDelete(request,pk):
   data = AnswerForProblem.objects.get(pk=pk)
   data.delete()
   return redirect('success')
 
-
+@login_required(login_url='/login/')
 def quizUpload(request):
   userofquiz = request.user
   if request.method == 'POST':
@@ -280,6 +305,7 @@ def quizUpload(request):
   }
   return render(request,'templates/quiz_forms.html',context)
 
+@login_required(login_url='/login/')
 def quizEdit(request,pk):
   userofquiz = request.user
   dataget = Quiz.objects.get(pk=pk)
@@ -297,6 +323,7 @@ def quizEdit(request,pk):
   }
   return render(request,'templates/quiz_forms.html',context)
 
+@login_required(login_url='/login/')
 def conformQuizForDelete(request,pk):
     data = Quiz.objects.get(pk=pk)
     context = {
@@ -326,6 +353,7 @@ def displayAllQuiz(request):
   }
   return render(request,'templates/all_quiz.html',context)
 
+@login_required(login_url='/login/')
 def displayAllInvitedQuiz(request):
   quizin=False
   userdata = request.user
@@ -342,7 +370,7 @@ def displayAllInvitedQuiz(request):
   }
   return render(request,'templates/all_quiz_for_hiring.html',context)
 
-
+@login_required(login_url='/login/')
 def displayInstructionPageForQuiz(request,pk):
   quizTaken=False
   quizIn=False
@@ -378,6 +406,7 @@ def displayQuiz(request,pk):
       answer = Answer.objects.filter(question=question).all()
       return render(request,'templates/single_quiz.html',{'questions':question,'answer':answer,'end_time':end_time})
 
+@login_required(login_url='/login/')
 def submitAnswer(request,qid,quid):
     if request.method == 'POST':
      session_end_time = request.session.get('end_time')
@@ -422,6 +451,7 @@ def submitAnswer(request,qid,quid):
     del request.session['score']   
     return render(request, 'templates/single_quiz.html', {'questions':question, 'answer':answer,'end_time':end_time})
     
+@login_required(login_url='/login/')
 def quizResult(request,quid):
     del request.session['score']
     resultUser = request.user
@@ -435,6 +465,7 @@ def quizResult(request,quid):
         }
     return render(request,'templates/quiz_result.html',context)
 
+@login_required(login_url='/login/')
 def controlPanelForQuizManage(request):
   user = request.user
   quizUploadData = False
@@ -480,6 +511,7 @@ def controlPanelForQuizManage(request):
   }
   return render(request,'templates/admin.html',context)
 
+@login_required(login_url='/login/')
 def allQuizPageForQuizManage(request):
   userdata = request.user
   quizUploadData = False
@@ -517,6 +549,7 @@ def allQuizPageForQuizManage(request):
   }
   return render(request,'templates/allQuizPageForQuizManage.html',context)
 
+@login_required(login_url='/login/')
 def quizInvitePageForAdmin(request,pk):
   user = request.user
   quizInviteDataFor50 = False
@@ -550,6 +583,7 @@ def quizInvitePageForAdmin(request,pk):
   }
   return render(request,'templates/quizInvitePageForAdmin.html',context)
 
+@login_required(login_url='/login/')
 def quizQuestionsPageForAdmin(request,pk):
   user = request.user
   quizQuestionDataFor20 = False
@@ -583,6 +617,7 @@ def quizQuestionsPageForAdmin(request,pk):
   }
   return render(request,'templates/quizQuestionPageForQuizManage.html',context)
 
+@login_required(login_url='/login/')
 def QuizSubmissionPageForQuizManage(request,quid):
   quizp = Quiz.objects.get(quid=quid)
   quizSubmited = QuizSubmit.objects.filter(quiz=quizp).all()
@@ -597,16 +632,14 @@ def conformQuizSubmissionForDelete(request,qsid):
   }
   return render(request,'templates/conformQuizSubmissionForDelete.html',context)
 
-
+@login_required(login_url='/login/')
 def quizSubmissionDelete(request,qsid):
   data = QuizSubmit.objects.get(qsid=qsid)
   data.delete()
   messages.success(request,"Quiz Submission Deleted!")
   return redirect('controlPanelForQuizManage')
   
-def success(request):
-  return HttpResponse('Upload SuccessFully')
-
+@login_required(login_url='/login/')
 def order(request,pk):
    plan = Plans.objects.get(pid=pk)
    context = {
@@ -614,6 +647,7 @@ def order(request,pk):
    }
    return render(request,'templates/order.html',context)
 
+@login_required(login_url='/login/')
 def orderHandle(request,name,amount):
   if request.method == 'POST':
     cn = request.POST['cn']
@@ -656,14 +690,15 @@ def selectLanguage(request):
 def code_Editor(request):
   selectpy = False
   selectc = False
-  cat = request.POST['select_id']
-  category = Category.objects.get(name=cat)
-  if category.name == 'Python':
-    selectpy = category
-  elif category.name == 'C':
-     selectc = category
-  else:
-    print('Nothing')
+  if request.method=='POST':
+   cat = request.POST['select_id']
+   category = Category.objects.get(cid=cat)
+   if category.name == 'Python':
+     selectpy = category
+   elif category.name == 'C':
+      selectc = category
+   else:
+     print('Nothing')
   context = {
     'selectpy':selectpy,
     'selectc':selectc,
@@ -682,6 +717,7 @@ def contactUsRequest(request):
     messages.success(request,'Request Has Bean Submitted!')
   return redirect('contact')
 
+@login_required(login_url='/login/')
 def quizinvite(request,pk):
   quizData = Quiz.objects.get(pk=pk)
   if request.method == 'POST':
@@ -697,10 +733,12 @@ def quizinvite(request,pk):
   
   context = {
     'form':form,
-    'quizData':quizData
+    'quizData':quizData,
+  
   }
   return render(request,'templates/quizInviteForm.html',context)
 
+@login_required(login_url='/login/')
 def editquizinvite(request,pk,quid):
   quizData = Quiz.objects.get(quid=quid)
   dataget = quizInvite.objects.get(pk=pk)
@@ -718,6 +756,7 @@ def editquizinvite(request,pk,quid):
   }
   return render(request,'templates/quizInviteForm.html',context)
 
+@login_required(login_url='/login/')
 def conformQuizInviteForDelete(request,pk):
     data = quizInvite.objects.get(pk=pk)
     context = {
@@ -725,12 +764,13 @@ def conformQuizInviteForDelete(request,pk):
     }
     return render(request,'templates/conformQuizInvite.html',context)
 
+@login_required(login_url='/login/')
 def quizInviteDelete(request,pk):
   data = quizInvite.objects.get(pk=pk)
   data.delete()
   return redirect('controlPanelForQuizManage')
   
-
+@login_required(login_url='/login/')
 def deletequizinvite(request,pk):
   dataget = quizInvite.objects.get(pk=pk)
  
@@ -739,6 +779,7 @@ def deletequizinvite(request,pk):
   }
   return render(request,'templates/quizInviteForm.html',context)
 
+@login_required(login_url='/login/')
 def allProblemStatement(request):
   submitdata = False
   userdata= request.user
@@ -752,6 +793,8 @@ def allProblemStatement(request):
       'submitdata':submitdata,
   }
   return render(request,'templates/all_problem.html',context)
+
+@login_required(login_url='/login/')
 def problemSolvingEditior(request,proid):
   problemdata =Problem.objects.get(proid=proid)
   context={
@@ -759,6 +802,7 @@ def problemSolvingEditior(request,proid):
   }
   return render(request,'templates/problem_Statement_Editor.html',context)
 
+@login_required(login_url='/login/')
 def codeRun(request,proid):
    problemdata  = Problem.objects.get(proid=proid)
    userdata = request.user
@@ -788,6 +832,7 @@ def codeRun(request,proid):
    res = render(request,'templates/problem_Statement_Editor.html',{"code":code_part,"input":y,"output":output,"problemdata":problemdata})
    return res
 
+@login_required(login_url='/login/')
 def paymentSuccess(request):
   context = {}
   return render(request,'templates/successPayment.html',context)

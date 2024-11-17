@@ -12,7 +12,6 @@ urlpatterns = [
    path('plansForQuiz/',views.quizPlans,name='plansForQuiz'),
    path('contactUsRequest/',views.contactUsRequest,name='contactUsRequest'),
    path('postUpload/',views.postUpload,name='postUpload'),
-   path('success',views.success,name='success'),
    path('postEdit/<int:pk>/',views.postEdit,name='postEdit'),
    path('conformPost/<int:pk>/',views.conformPostForDelete,name='conformPost'),
    path('postDelete/<int:pk>/',views.postDelete,name='postDelete'),
@@ -61,7 +60,8 @@ urlpatterns = [
    path('quizSubmissionDelete/<int:qsid>/',views.quizSubmissionDelete,name="quizSubmissionDelete"),
    path('problemSolvingEditior/<int:proid>/',views.problemSolvingEditior,name="problemSolvingEditior"),
    path('codeRun/<int:proid>/',views.codeRun,name="codeRun"),
-   path('allProblemStatement',views.allProblemStatement,name='allProblemStatement')
+   path('allProblemStatement',views.allProblemStatement,name='allProblemStatement'),
+   path('contactHandle/',views.contactHandel,name='contacthandle'),
 ] 
 
 

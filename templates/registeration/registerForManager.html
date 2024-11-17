@@ -104,6 +104,15 @@
                 </div>
                 {{ form.email }}
               </div>
+            
+            <div class="input-group mb-2">
+              <div class="input-group-append">
+                <span class="input-group-text"
+                  ><i class="fas fa-phone"></i
+                ></span>
+              </div>
+              {{ form.number }}
+            </div>
               <div class="input-group mb-2">
                 <div class="input-group-append">
                   <span class="input-group-text"
@@ -130,16 +139,6 @@
                 {{ form.is_quizManager }}
 	  
               </div>
-              
-              <div class="input-group mb-3">
-                <div class="input-group-append">
-                  <span class="input-group-text"
-                    ><h5 class="manager">Docs Manager:</h5>
-              </span>
-	                 </div>
-                {{ form.is_docsManager }}
-	  
-              </div>
               <div class="d-flex justify-content-center mt-3 login_container">
                 <input
                   class="btn login_btn"
@@ -161,9 +160,10 @@
     </div>
     <script>
       var form_fields = document.getElementsByTagName("input");
-      form_fields[1].placeholder = "Email..";
-      form_fields[2].placeholder = "Enter password...";
-      form_fields[3].placeholder = "Re-enter Password...";
+      form_fields[1].placeholder = "example@company.com";
+      form_fields[2].placeholder = "Phone Number..";
+      form_fields[3].placeholder = "Enter password...";
+      form_fields[4].placeholder = "Re-enter Password...";
      
       for (var field in form_fields) {
         form_fields[field].className += " form-control";

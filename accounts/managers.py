@@ -24,6 +24,7 @@ class CustomUserManager(BaseUserManager):
         extra_fields.setdefault('is_quizManager', False)
         extra_fields.setdefault('is_docsManager', False)
         extra_fields.setdefault('is_order', False)
+        extra_fields.setdefault('number',None)
 
         if extra_fields.get('is_staff') is not True:
             raise ValueError(_('Superuser must have is_staff=True.'))
