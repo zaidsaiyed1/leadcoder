@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import *
+from core.models import *
 # Register your models here.
 admin.site.register(Post)
 admin.site.register(Category)
@@ -14,7 +14,6 @@ class QuestionForQuiz(admin.StackedInline):
 
 class QuizAdmin(admin.ModelAdmin):
     inlines = [QuestionForQuiz]
-
 
 admin.site.register(Question,QuestionAdmin)
 

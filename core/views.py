@@ -1,12 +1,12 @@
 import sys
 from django.http import HttpResponse
+
 from django.shortcuts import get_object_or_404, render,redirect
 from django.contrib.auth.decorators import login_required
-from .models import *
+from core.models import *
 import datetime
 from .forms import *
 from django.utils import timezone
-from django.db.models import F, DurationField, Sum, ExpressionWrapper
 from datetime import datetime, time, timedelta
 import razorpay
 from django.conf import settings
@@ -19,7 +19,8 @@ def index(request):
  ps = Problem.objects.last()
  quiz = Quiz.objects.all()
  post = Post.objects.all().order_by('-created_at')[:3]
- return render(request,'templates/index.html',{'ps':ps,'quiz':quiz,'post':post})
+ context = {'ps':ps,'quiz':quiz,'post':post}
+ return render(request,'templates/index.html',context)
 
 def about(request):
   context = {
@@ -392,7 +393,7 @@ def displayInstructionPageForQuiz(request,pk):
           'quizTaken':quizTaken,
           'quizIn':quizIn,
       }
-  return render(request,'templates/instructionPage.html',context)
+  return render(request,'templates/instructionpage.html',context)
 
 def displayQuiz(request,pk):
       quizd = get_object_or_404(Quiz, pk=pk)
@@ -513,10 +514,13 @@ def controlPanelForQuizManage(request):
 
 @login_required(login_url='/login/')
 def allQuizPageForQuizManage(request):
+  
   userdata = request.user
   quizUploadData = False
   quizUploadData5 = False
   quizUploadDataUni = False
+  
+
   
   userorder = request.user.is_order
   if userorder == True:

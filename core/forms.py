@@ -22,7 +22,6 @@ class Questionf(forms.ModelForm):
                 fields = ['category','quiz','question','levelofq','marks']
                
         
-
 class Answerf(forms.ModelForm):
         class Meta:
                 model = Answer
